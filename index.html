@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Controle Financeiro</title>
+</head>
+<body>
+    <div class="menu-container">
+        <nav class="menu">
+            <div class="icones-esquerda">
+                <img src="imgs/logo.png" alt="Logo newtab contabilidade">
+                <h1>Controle Financeiro</h1>
+                <img src="imgs/bars-solid.svg" alt="Hamburguer icon menu" id="hamburguer-icon">
+            </div>
+            <div class="lista-links">
+                <ul>
+                    <li><a href="#">Limpar Dados</a></li>
+                    <li><a href="#">Cadastro de Transações</a></li>
+                    <li><a href="#">Salvar no Servidor</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <section class="conteudo">
+        <form class="form-nova-transacao">
+            <h2>Nova transação</h2>
+            <div class="container-input">
+                <label for="tipo">Tipo de transação</label>
+                <select id="tipo">
+                    <option>Compra</option>
+                    <option>Venda</option>
+                </select>
+            </div>
+            <div class="container-input">
+                <label for="nome-mercadoria">Nome da mercadoria</label>
+                <input type="text" id="nome-mercadoria" placeholder="Input"/>
+            </div>
+            <div class="container-input">
+                <label for="valor">Valor</label>
+                <input type="text" id="valor" placeholder="R$ 0,00"/>
+            </div>
+            <input type="submit" value="Adicionar transação"/>
+        </form>
+        <div class="extrato">
+            <h2>Extrato de transações</h2>
+            <div class="descricao">
+                <h3>Mercadoria</h3>
+                <h3>Valor</h3>
+            </div>
+            <div class="line">
+                <div class="transacao">
+                    <span class="sinal">+</span>
+                    <span>Lorem ipsum dolor sit amet consectetur</span>
+                </div>
+                <span>R$ 12.999,99</span>
+            </div>
+            <div class="line">
+                <div class="transacao">
+                    <span class="sinal">-</span>
+                    <span>Quis nostrud exercitation</span>
+                </div>
+                <span>R$ 99,99</span>
+            </div>
+            <div class="line">
+                <div class="transacao">
+                    <span class="sinal">+</span>
+                    <span>Lorem ipsum</span>
+                </div>
+                <span>9,99</span>
+            </div>
+            <div class="resumo-transacoes">
+                <h3>Total</h3>
+                <div class="resultado">
+                    <h3>R$ 12.909,99</h3>
+                    <span>[LUCRO]</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
