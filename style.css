@@ -84,6 +84,7 @@ h3 {
 }
 .form-nova-transacao {
     border: 1px solid var(--gray);
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -102,6 +103,8 @@ h3 {
     padding: 10px;
     color: var(--gray);
     font-size: 1.0rem;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
 }
 .form-nova-transacao .container-button {
     width: 100%;
