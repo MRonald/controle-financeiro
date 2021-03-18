@@ -14,6 +14,7 @@ body {
 .menu-container {
     width: 100%;
     background-color: var(--background-menu);
+    min-width: 324px;
 }
 .menu {
     background-color: transparent;
@@ -65,6 +66,7 @@ body {
 h2 {
     text-align: center;
     font-size: 1.1rem;
+    margin: 10px auto;
 }
 h3 {
     font-size: 1rem;
@@ -75,6 +77,7 @@ h3 {
     margin: 30px auto auto;
     width: 80%;
     max-width: 1100px;
+    min-width: 300px;
 }
 .form-nova-transacao {
     border: 1px solid var(--gray);
@@ -82,6 +85,7 @@ h3 {
     flex-direction: column;
     padding: 10px;
     width: 40%;
+    min-width: 279px;
 }
 .form-nova-transacao .container-input {
     display: flex;
@@ -110,15 +114,17 @@ h3 {
     background-color: var(--gray);
 }
 .extrato {
-    width: 55%;
     display: flex;
     flex-direction: column;
+    width: 55%;
+    min-width: 300px;
 }
 .extrato .descricao {
     display: flex;
     justify-content: space-between;
     padding-left: 25px;
     padding-bottom: 5px;
+    margin-top: 15px;
     border-bottom: 1px solid var(--gray);
 }
 .extrato .line {
@@ -146,4 +152,59 @@ h3 {
 }
 .extrato .resumo-transacoes .resultado {
     text-align: right;
+}
+@media (max-width: 1000px) {
+    .menu {
+        width: 95%;
+    }
+    .conteudo {
+        width: 95%;
+    }
+}
+@media (max-width: 800px) {
+    .conteudo {
+        flex-wrap: wrap;
+    }
+    .menu .lista-links {
+        display: none;
+    }
+    .menu .icones-esquerda {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .menu .icones-esquerda #hamburguer-icon {
+        display: initial;
+    }
+    .form-nova-transacao, .extrato {
+        width: 100%;
+    }
+    .form-nova-transacao .containers-wrapper {
+        display: flex;
+    }
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(1),
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(3) {
+        width: 25%;
+    }
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(2) {
+        margin: auto 3%;
+        width: 44%;
+    }
+    .extrato {
+        margin-top: 40px;
+    }
+}
+@media (max-width: 559px) {
+    .conteudo {
+        padding: 0 10px;
+    }
+    .form-nova-transacao .containers-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(1),
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(2),
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(3) {
+        margin: auto 0px;
+        width: 100%;
+    }
 }
