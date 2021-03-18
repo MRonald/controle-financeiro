@@ -30,8 +30,11 @@ body {
     display: flex;
     align-items: center;
 }
-.menu .icones-esquerda img {
+.menu .icones-esquerda img:first-child {
     height: 50px;
+}
+.menu .icones-esquerda img:last-child {
+    height: 30px;
 }
 .menu .icones-esquerda h1 {
     font-size: 1.2rem;
@@ -100,7 +103,12 @@ h3 {
     color: var(--gray);
     font-size: 1.0rem;
 }
-.form-nova-transacao input[type="submit"] {
+.form-nova-transacao .container-button {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.form-nova-transacao .container-button button.adicionar-transacao {
     border: none;
     background-color: var(--gray-dark);
     color: #ffffff;
@@ -108,8 +116,10 @@ h3 {
     font-size: 1.0rem;
     padding: 10px 0px;
     margin-top: 15px;
+    width: 100%;
+    transition: background-color 0.3s;
 }
-.form-nova-transacao input[type="submit"]:hover {
+.form-nova-transacao .container-button button.adicionar-transacao:hover {
     cursor: pointer;
     background-color: var(--gray);
 }
@@ -189,6 +199,9 @@ h3 {
         margin: auto 3%;
         width: 44%;
     }
+    .form-nova-transacao .container-button button.adicionar-transacao {
+        width: 30%;
+    }
     .extrato {
         margin-top: 40px;
     }
@@ -196,6 +209,15 @@ h3 {
 @media (max-width: 559px) {
     .conteudo {
         padding: 0 10px;
+        margin-top: 10px;
+    }
+    .form-nova-transacao {
+        border: none;
+        border-bottom: 1px solid var(--gray);
+        padding-bottom: 30px;
+    }
+    .form-nova-transacao > h2 {
+        display: none;
     }
     .form-nova-transacao .containers-wrapper {
         display: flex;
@@ -205,6 +227,9 @@ h3 {
     .form-nova-transacao .containers-wrapper .container-input:nth-child(2),
     .form-nova-transacao .containers-wrapper .container-input:nth-child(3) {
         margin: auto 0px;
+        width: 100%;
+    }
+    .form-nova-transacao .container-button button.adicionar-transacao {
         width: 100%;
     }
 }
