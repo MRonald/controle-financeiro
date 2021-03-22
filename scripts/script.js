@@ -31,7 +31,12 @@ function adicionarTransacao() {
     if (validacaoMercadoria && validacaoValor) {
         const tipoTransacaoAtual = novaTransacao.tipo.value;
         const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
-        const valorTransacaoAtual = parseFloat(novaTransacao.valor.value);
+        const valorTransacaoAtual = (tipoTransacaoAtual === "Venda")
+            ? parseFloat(novaTransacao.valor.value.toString().replace(",", "."))
+            : 0 - parseFloat(
+                novaTransacao.valor.value.toString().replace(".", "").replace(",", ".")
+            );
+        alert(valorTransacaoAtual);
         transacoes.push({
             tipo: tipoTransacaoAtual,
             mercadoria: mercadoriaTransacaoAtual,
@@ -58,7 +63,7 @@ function atualizarExtrato() {
             <span class="sinal">${ultimaAdicao.tipo === "venda" ? "+" : "-"}</span>
             <span>${ultimaAdicao.mercadoria}</span>
         </div>
-        <span>R$ ${ultimaAdicao.valor}</span>
+        <span>R$ ${Math.abs(ultimaAdicao.valor).toLocaleString("pt-BR")}</span>
     </div>
     `;
     containerLinhasTrasacoes.innerHTML += novaTag;
