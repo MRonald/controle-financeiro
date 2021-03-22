@@ -11,6 +11,8 @@ const pValidarMercadoria = document.getElementById('p-validar-mercadoria');
 const pValorVazio = document.getElementById('p-valor-vazio');
 const pValorIncompleto = document.getElementById('p-valor-incompleto');
 const btnAdd = document.getElementById('btn-add');
+const resultadoTotal = document.getElementById('resultado-total');
+const sentenca = document.getElementById('sentenca');
 
 // Variáveis globais e listeners
 var transacoes = [];
@@ -25,52 +27,11 @@ if (transacoes.length != 0) {
 }
 
 // Functions
-function adicionarTransacao() {
-    const validacaoMercadoria = validarMercadoria();
-    const validacaoValor = validarValor();
-    if (validacaoMercadoria && validacaoValor) {
-        const tipoTransacaoAtual = novaTransacao.tipo.value;
-        const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
-        const valorTransacaoAtual = (tipoTransacaoAtual === "Venda")
-            ? parseFloat(novaTransacao.valor.value.toString().replace(",", "."))
-            : 0 - parseFloat(
-                novaTransacao.valor.value.toString().replace(".", "").replace(",", ".")
-            );
-        alert(valorTransacaoAtual);
-        transacoes.push({
-            tipo: tipoTransacaoAtual,
-            mercadoria: mercadoriaTransacaoAtual,
-            valor: valorTransacaoAtual
-        });
-        atualizarExtrato();
-        limparCampos();
-    }
-}
-function atualizarExtrato() {
-    if (transacoes.length === 1 || transacoes.length === 0) {
-        if (transacoes.length != 0) {
-            semTransacoes.style.display = 'none';
-            tabelaTransacoes.style.display = 'block';
-        } else {
-            semTransacoes.style.display = 'block';
-            tabelaTransacoes.style.display = 'none';
-        }
-    }
-    const ultimaAdicao = transacoes[transacoes.length - 1];
-    const novaTag = `
-    <div class="line">
-        <div class="transacao">
-            <span class="sinal">${ultimaAdicao.tipo === "venda" ? "+" : "-"}</span>
-            <span>${ultimaAdicao.mercadoria}</span>
-        </div>
-        <span>R$ ${Math.abs(ultimaAdicao.valor).toLocaleString("pt-BR")}</span>
-    </div>
-    `;
-    containerLinhasTrasacoes.innerHTML += novaTag;
-}
-function limparCampos() {
-    novaTransacao.mercadoria.value = "";
-    novaTransacao.valor.value = "";
+function formatarValor(valor) {
+    return Math.abs(valor).toLocaleString("pt-BR", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 }
 function validarMercadoria() {
     const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
@@ -105,3 +66,67 @@ function validarValor() {
 $(document).ready(function() {
     $("#valor").mask("999.999.999.990,00", {reverse: true});
 });
+// ---
+function adicionarTransacao() {
+    const validacaoMercadoria = validarMercadoria();
+    const validacaoValor = validarValor();
+    if (validacaoMercadoria && validacaoValor) {
+        const tipoTransacaoAtual = novaTransacao.tipo.value;
+        const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
+        const valorTransacaoAtual = (tipoTransacaoAtual === "venda")
+            ? parseFloat(novaTransacao.valor.value.toString().replace(".", "").replace(",", "."))
+            : 0 - parseFloat(
+                novaTransacao.valor.value.toString().replace(".", "").replace(",", ".")
+            );
+        transacoes.push({
+            tipo: tipoTransacaoAtual,
+            mercadoria: mercadoriaTransacaoAtual,
+            valor: valorTransacaoAtual
+        });
+        atualizarExtrato();
+        limparCampos();
+        calcularTotal();
+    }
+}
+function atualizarExtrato() {
+    if (transacoes.length === 1 || transacoes.length === 0) {
+        if (transacoes.length != 0) {
+            semTransacoes.style.display = 'none';
+            tabelaTransacoes.style.display = 'block';
+        } else {
+            semTransacoes.style.display = 'block';
+            tabelaTransacoes.style.display = 'none';
+        }
+    }
+    const ultimaAdicao = transacoes[transacoes.length - 1];
+    const novaTag = `
+    <div class="line">
+        <div class="transacao">
+            <span class="sinal">
+                ${
+                    ultimaAdicao.tipo === "venda" ? "+" : "-"
+                }
+            </span>
+            <span>${ultimaAdicao.mercadoria}</span>
+        </div>
+        <span>
+            R$ ${
+                formatarValor(ultimaAdicao.valor)
+            }
+        </span>
+    </div>
+    `;
+    containerLinhasTrasacoes.innerHTML += novaTag;
+}
+function limparCampos() {
+    novaTransacao.mercadoria.value = "";
+    novaTransacao.valor.value = "";
+}
+function calcularTotal() {
+    let total = 0;
+    for (transacao of transacoes) {
+        total += transacao.valor;
+    }
+    resultadoTotal.innerText = "R$ " + formatarValor(total);
+    sentenca.innerText = (total >= 0) ? "[LUCRO]" : "[PREJUÍZO]";
+}
