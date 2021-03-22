@@ -211,7 +211,7 @@ h3 {
         width: 25%;
     }
     .form-nova-transacao .containers-wrapper .container-input:nth-child(2) {
-        margin: auto 3%;
+        margin: 0 3%;
         width: 44%;
     }
     .form-nova-transacao .container-button button.adicionar-transacao {

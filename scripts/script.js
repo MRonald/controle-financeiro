@@ -1,4 +1,4 @@
-// Variáveis globais e listeners
+// Elementos do DOM
 const tabelaTransacoes = document.getElementById('lista-transacoes');
 const semTransacoes = document.getElementById('sem-transacoes');
 const containerLinhasTrasacoes = document.getElementById('container-transacoes');
@@ -8,17 +8,15 @@ const novaTransacao = {
     valor: document.getElementById('valor')
 };
 const pValidarMercadoria = document.getElementById('p-validar-mercadoria');
-const pValidarValor = document.getElementById('p-validar-valor');
+const pValorVazio = document.getElementById('p-valor-vazio');
+const pValorIncompleto = document.getElementById('p-valor-incompleto');
 const btnAdd = document.getElementById('btn-add');
 
-const teclasNumeros = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105];
+// Variáveis globais e listeners
 var transacoes = [];
 
 novaTransacao.mercadoria.addEventListener('keyup', validarMercadoria);
-novaTransacao.valor.addEventListener('keyup', (event) => {
-    validarValor();
-    preencherValor(event.keyCode);
-});
+novaTransacao.valor.addEventListener('keyup', validarValor);
 btnAdd.addEventListener('click', adicionarTransacao);
 
 if (transacoes.length != 0) {
@@ -28,18 +26,20 @@ if (transacoes.length != 0) {
 
 // Functions
 function adicionarTransacao() {
-    const tipoTransacaoAtual = novaTransacao.tipo.value;
-    const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
-    const valorTransacaoAtual = parseFloat(novaTransacao.valor.value);
-    transacoes.push({
-        tipo: tipoTransacaoAtual,
-        mercadoria: mercadoriaTransacaoAtual,
-        valor: valorTransacaoAtual
-    });
-    atualizarExtrato();
-    limparCampos();
-
-    console.log(teclas);
+    const validacaoMercadoria = validarMercadoria();
+    const validacaoValor = validarValor();
+    if (validacaoMercadoria && validacaoValor) {
+        const tipoTransacaoAtual = novaTransacao.tipo.value;
+        const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
+        const valorTransacaoAtual = parseFloat(novaTransacao.valor.value);
+        transacoes.push({
+            tipo: tipoTransacaoAtual,
+            mercadoria: mercadoriaTransacaoAtual,
+            valor: valorTransacaoAtual
+        });
+        atualizarExtrato();
+        limparCampos();
+    }
 }
 function atualizarExtrato() {
     if (transacoes.length === 1 || transacoes.length === 0) {
@@ -71,38 +71,32 @@ function validarMercadoria() {
     const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
     if (mercadoriaTransacaoAtual === "") {
         pValidarMercadoria.style.display = "block";
+        return false;
     } else {
         pValidarMercadoria.style.display = "none";
+        return true;
     }
 }
 function validarValor() {
-    const valorTransacaoAtual = novaTransacao.valor.value;
+    const valorTransacaoAtual = novaTransacao.valor.value.toString();
     if (valorTransacaoAtual === "") {
-        pValidarValor.style.display = "block";
+        pValorVazio.style.display = "block";
     } else {
-        pValidarValor.style.display = "none";
+        pValorVazio.style.display = "none";
+    }
+    if (valorTransacaoAtual.length > 0 && valorTransacaoAtual.length < 4) {
+        pValorIncompleto.style.display = "block";
+    } else {
+        pValorIncompleto.style.display = "none";
+    }
+    if (pValorVazio.style.display === "none" &&
+        pValorIncompleto.style.display === "none") {
+        return true;
+    } else {
+        return false;
     }
 }
-
-function preencherValor(codigoTecla) {
-    /* 
-     * Tentar mudar o método de verificação
-     * testar se todos os digitos são numbers
-     * Caso algum seja NaN, mostrar a mensagem de erro
-     * Integrar tudo na função de validarValor
-     */
-    console.log(codigoTecla);
-    var valorTransacaoAtual = novaTransacao.valor.value.toString();
-    var digitoValido = false;
-    for (let tecla of teclasNumeros) {
-        if (codigoTecla == tecla) {
-            digitoValido = true;
-            break;
-        }
-    }
-    console.log(digitoValido);
-    if (!digitoValido) {
-        novaTransacao.valor.value = 
-        valorTransacaoAtual.substring(0, valorTransacaoAtual.length - 1);
-    }
-}
+// Masks jQuery
+$(document).ready(function() {
+    $("#valor").mask("999.999.999.990,00", {reverse: true});
+});
