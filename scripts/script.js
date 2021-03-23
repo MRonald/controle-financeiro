@@ -84,8 +84,8 @@ function adicionarTransacao() {
             valor: valorTransacaoAtual
         });
         atualizarExtrato();
-        limparCampos();
         calcularTotal();
+        limparCampos();
     }
 }
 function atualizarExtrato() {
@@ -98,25 +98,18 @@ function atualizarExtrato() {
             tabelaTransacoes.style.display = 'none';
         }
     }
-    const ultimaAdicao = transacoes[transacoes.length - 1];
-    const novaTag = `
-    <div class="line">
-        <div class="transacao">
-            <span class="sinal">
-                ${
-                    ultimaAdicao.tipo === "venda" ? "+" : "-"
-                }
-            </span>
-            <span>${ultimaAdicao.mercadoria}</span>
+    const ultimaTransacao = transacoes[transacoes.length - 1];
+    const novaTag = document.createElement('div');
+    novaTag.innerHTML = `
+        <div class="line">
+            <div class="transacao">
+                <span class="sinal">${ultimaTransacao.tipo === "venda" ? "+" : "-"}</span>
+                <span>${ultimaTransacao.mercadoria}</span>
+            </div>
+            <span>R$ ${formatarValor(ultimaTransacao.valor)}</span>
         </div>
-        <span>
-            R$ ${
-                formatarValor(ultimaAdicao.valor)
-            }
-        </span>
-    </div>
     `;
-    containerLinhasTrasacoes.innerHTML += novaTag;
+    containerLinhasTrasacoes.append(novaTag);
 }
 function limparCampos() {
     novaTransacao.mercadoria.value = "";
