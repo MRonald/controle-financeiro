@@ -1,3 +1,4 @@
+/* Estilos gerais */
 :root {
     --background-menu: #e0e0e0;
     --gray: #808080;
@@ -11,6 +12,7 @@ body {
     box-sizing: border-box;
     font-family: 'Lato', Arial, sans-serif;
 }
+/* Menu */
 .menu-container {
     width: 100%;
     background-color: var(--background-menu);
@@ -42,9 +44,6 @@ body {
     color: var(--gray-dark);
     font-weight: normal;
 }
-.menu .icones-esquerda #hamburguer-icon {
-    display: none;
-}
 .menu .lista-links ul {
     list-style: none;
     display: inline-flex;
@@ -60,12 +59,20 @@ body {
 .menu .lista-links ul li a {
     text-decoration: none;
     color: var(--gray-dark);
-    padding: 5px 2px;
+    padding: 9px 5px;
     transition: color 0.3s;
+    border-radius: 3px;
+    transition: all .3s;
 }
 .menu .lista-links ul li a:hover {
-    color: #E00C4B;
+    background-color: var(--gray-dark);
+    color: #fff;
 }
+/* Menu lateral */
+.menu .icones-esquerda #hamburguer-icon {
+    display: none;
+}
+/* Estilos genéricos de conteúdo */
 h2 {
     text-align: center;
     font-size: 1.1rem;
@@ -82,10 +89,11 @@ h3 {
     max-width: 1100px;
     min-width: 300px;
 }
+/* Formulário de nova transação */
 .form-nova-transacao {
     border: 1px solid var(--gray);
     border-radius: 5px;
-    display: flex;
+    display: table;
     flex-direction: column;
     padding: 10px;
     width: 40%;
@@ -131,6 +139,7 @@ h3 {
     cursor: pointer;
     background-color: var(--gray);
 }
+/* Extrato */
 .extrato {
     display: flex;
     flex-direction: column;
@@ -180,6 +189,7 @@ h3 {
     flex-direction: column;
     text-align: right;
 }
+/* Media-querys */
 @media (max-width: 1000px) {
     .menu {
         width: 95%;
