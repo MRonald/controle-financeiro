@@ -1,4 +1,5 @@
 // Elementos do DOM
+const btnLimparDados = document.getElementById('limpar-dados');
 const tabelaTransacoes = document.getElementById('lista-transacoes');
 const semTransacoes = document.getElementById('sem-transacoes');
 const containerLinhasTrasacoes = document.getElementById('container-transacoes');
@@ -17,6 +18,7 @@ const sentenca = document.getElementById('sentenca');
 // Variáveis globais e listeners
 var transacoes = [];
 
+btnLimparDados.addEventListener('click', limparDados);
 novaTransacao.mercadoria.addEventListener('keyup', validarMercadoria);
 novaTransacao.valor.addEventListener('keyup', validarValor);
 btnAdd.addEventListener('click', adicionarTransacao);
@@ -87,6 +89,10 @@ function adicionarTransacao() {
         calcularTotal();
         limparCampos();
     }
+}
+function limparDados() {
+    transacoes = [];
+    atualizarExtrato();
 }
 function atualizarExtrato() {
     if (transacoes.length === 1 || transacoes.length === 0) {

@@ -62,11 +62,12 @@ body {
     padding: 9px 5px;
     transition: color 0.3s;
     border-radius: 3px;
-    transition: all .3s;
 }
 .menu .lista-links ul li a:hover {
+    transition: all .3s;
     background-color: var(--gray-dark);
     color: #fff;
+    cursor: pointer;
 }
 /* Menu lateral */
 .menu .icones-esquerda #hamburguer-icon {
