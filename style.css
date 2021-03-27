@@ -1,3 +1,13 @@
+/* Transições */
+@-webkit-keyframes surgir {
+    from {top:-100px;opacity: 0;}
+    to {top:0px;opacity:1;}
+}
+@keyframes surgir {
+    from {top:-100px;opacity: 0;}
+    to {top:0px;opacity:1;}
+}
+
 :root {
     --background-menu: #e0e0e0;
     --gray: #808080;
@@ -74,6 +84,11 @@ body {
     width: 40%;
     min-height: 100vh;
     display: none;
+
+    -webkit-animation-name: surgir; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 0.5s; /* Chrome, Safari, Opera */
+    animation-name: surgir;
+    animation-duration: 0.5s;
 }
 #menu-lateral:target {
     display: initial;
