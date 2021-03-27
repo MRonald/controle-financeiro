@@ -42,9 +42,6 @@ body {
     color: var(--gray-dark);
     font-weight: normal;
 }
-.menu .icones-esquerda #hamburguer-icon {
-    display: none;
-}
 .menu .lista-links ul {
     list-style: none;
     display: inline-flex;
@@ -65,6 +62,51 @@ body {
 }
 .menu .lista-links ul li a:hover {
     color: #E00C4B;
+}
+.menu .icones-esquerda #hamburguer-icon {
+    display: none;
+}
+#menu-lateral {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--gray-dark);
+    width: 40%;
+    min-height: 100vh;
+    display: none;
+}
+#menu-lateral:target {
+    display: initial;
+}
+#menu-lateral .icone-fechar {
+    font-family: Consolas, Monaco;
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin: 10px auto 10px 20px;
+    padding: 5px;
+    display: table;
+    text-decoration: none;
+}
+#menu-lateral .icone-fechar:hover {
+    cursor: pointer;
+}
+#menu-lateral ul {
+    list-style: none;
+}
+#menu-lateral ul li {
+    text-align: right;
+}
+#menu-lateral ul li a {
+    padding: 15px 20px;
+    display: block;
+    text-decoration: none;
+    color: var(--background-menu);
+    font-weight: 600;
+}
+#menu-lateral ul li a:hover {
+    transition: all .3s;
+    color: var(--gray-dark);
+    background-color: var(--background-menu);
 }
 h2 {
     text-align: center;
@@ -210,6 +252,9 @@ h3 {
     }
 }
 @media (max-width: 559px) {
+    #menu-lateral {
+        width: 90%;
+    }
     .conteudo {
         padding: 0 10px;
         margin-top: 10px;
