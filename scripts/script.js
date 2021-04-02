@@ -28,6 +28,8 @@ if (transacoes.length != 0) {
     tabelaTransacoes.style.display = 'block';
 }
 
+// atualizarExtrato();
+
 // Functions
 function formatarValor(valor) {
     return Math.abs(valor).toLocaleString("pt-BR", {
@@ -95,27 +97,25 @@ function limparDados() {
     atualizarExtrato();
 }
 function atualizarExtrato() {
-    if (transacoes.length === 1 || transacoes.length === 0) {
-        if (transacoes.length != 0) {
-            semTransacoes.style.display = 'none';
-            tabelaTransacoes.style.display = 'block';
-        } else {
-            semTransacoes.style.display = 'block';
-            tabelaTransacoes.style.display = 'none';
-        }
-    }
-    const ultimaTransacao = transacoes[transacoes.length - 1];
-    const novaTag = document.createElement('div');
-    novaTag.innerHTML = `
-        <div class="line">
+    if (transacoes.length != 0) {
+        const ultimaTransacao = transacoes[transacoes.length - 1];
+        const novaTag = document.createElement('div');
+        novaTag.classList.add("line");
+        novaTag.innerHTML = `
             <div class="transacao">
                 <span class="sinal">${ultimaTransacao.tipo === "venda" ? "+" : "-"}</span>
                 <span>${ultimaTransacao.mercadoria}</span>
             </div>
             <span>R$ ${formatarValor(ultimaTransacao.valor)}</span>
-        </div>
-    `;
-    containerLinhasTrasacoes.append(novaTag);
+        `;
+        containerLinhasTrasacoes.append(novaTag);
+        semTransacoes.style.display = 'none';
+        tabelaTransacoes.style.display = 'block';
+    } else {
+        containerLinhasTrasacoes.innerHTML = "";
+        semTransacoes.style.display = 'block';
+        tabelaTransacoes.style.display = 'none';
+    }
 }
 function limparCampos() {
     novaTransacao.mercadoria.value = "";

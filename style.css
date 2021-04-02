@@ -210,6 +210,9 @@ h3 {
         width: 100%;
         justify-content: space-between;
     }
+    .menu .icones-esquerda h1 {
+        margin-left: 0;
+    }
     .menu .icones-esquerda #hamburguer-icon {
         display: initial;
     }
