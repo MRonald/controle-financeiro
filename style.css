@@ -1,13 +1,4 @@
-/* Transições */
-@-webkit-keyframes surgir {
-    from {top:-100px;opacity: 0;}
-    to {top:0px;opacity:1;}
-}
-@keyframes surgir {
-    from {top:-100px;opacity: 0;}
-    to {top:0px;opacity:1;}
-}
-
+/* Estilos gerais */
 :root {
     --background-menu: #e0e0e0;
     --gray: #808080;
@@ -21,6 +12,7 @@ body {
     box-sizing: border-box;
     font-family: 'Lato', Arial, sans-serif;
 }
+/* Menu */
 .menu-container {
     width: 100%;
     background-color: var(--background-menu);
@@ -67,11 +59,15 @@ body {
 .menu .lista-links ul li a {
     text-decoration: none;
     color: var(--gray-dark);
-    padding: 5px 2px;
+    padding: 9px 5px;
     transition: color 0.3s;
+    border-radius: 3px;
 }
 .menu .lista-links ul li a:hover {
-    color: #E00C4B;
+    transition: all .3s;
+    background-color: var(--gray-dark);
+    color: #fff;
+    cursor: pointer;
 }
 .menu .icones-esquerda #hamburguer-icon {
     display: none;
@@ -84,11 +80,6 @@ body {
     width: 40%;
     min-height: 100vh;
     display: none;
-
-    -webkit-animation-name: surgir; /* Chrome, Safari, Opera */
-    -webkit-animation-duration: 0.5s; /* Chrome, Safari, Opera */
-    animation-name: surgir;
-    animation-duration: 0.5s;
 }
 #menu-lateral:target {
     display: initial;
@@ -134,15 +125,16 @@ h3 {
 .conteudo {
     display: flex;
     justify-content: space-between;
-    margin: 30px auto auto;
+    margin: 30px auto 20px;
     width: 80%;
     max-width: 1100px;
     min-width: 300px;
 }
+/* Formulário de nova transação */
 .form-nova-transacao {
     border: 1px solid var(--gray);
     border-radius: 5px;
-    display: flex;
+    display: table;
     flex-direction: column;
     padding: 10px;
     width: 40%;
@@ -162,6 +154,11 @@ h3 {
     font-size: 1.0rem;
     border: 1px solid var(--gray);
     border-radius: 5px;
+}
+.form-nova-transacao .container-input p {
+    color: #ff182b;
+    text-align: right;
+    display: none;
 }
 .form-nova-transacao .container-button {
     width: 100%;
@@ -183,11 +180,19 @@ h3 {
     cursor: pointer;
     background-color: var(--gray);
 }
+/* Extrato */
 .extrato {
     display: flex;
     flex-direction: column;
     width: 55%;
     min-width: 300px;
+}
+.extrato #lista-transacoes {
+    display: none;
+}
+.extrato p#sem-transacoes {
+    text-align: center;
+    margin-top: 40px;
 }
 .extrato .descricao {
     display: flex;
@@ -221,8 +226,11 @@ h3 {
     border-top: 1px solid var(--gray);
 }
 .extrato .resumo-transacoes .resultado {
+    display: flex;
+    flex-direction: column;
     text-align: right;
 }
+/* Media-querys */
 @media (max-width: 1000px) {
     .menu {
         width: 95%;
@@ -242,6 +250,9 @@ h3 {
         width: 100%;
         justify-content: space-between;
     }
+    .menu .icones-esquerda h1 {
+        margin-left: 0;
+    }
     .menu .icones-esquerda #hamburguer-icon {
         display: initial;
     }
@@ -256,7 +267,7 @@ h3 {
         width: 25%;
     }
     .form-nova-transacao .containers-wrapper .container-input:nth-child(2) {
-        margin: auto 3%;
+        margin: 0 3%;
         width: 44%;
     }
     .form-nova-transacao .container-button button.adicionar-transacao {

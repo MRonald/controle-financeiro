@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="scripts/jquery-3.3.1.js" defer></script>
+    <script src="scripts/jquery.mask.min.js" defer></script>
+    <script src="scripts/script.js" defer></script>
     <link rel="stylesheet" href="style.css">
     <title>Controle Financeiro</title>
 </head>
@@ -19,9 +22,9 @@
             </div>
             <div class="lista-links">
                 <ul>
-                    <li><a href="#">Limpar Dados</a></li>
-                    <li><a href="#">Cadastro de Transações</a></li>
-                    <li><a href="#">Salvar no Servidor</a></li>
+                    <li><a id="limpar-dados">Limpar Dados</a></li>
+                    <li><a >Cadastro de Transações</a></li>
+                    <li><a >Salvar no Servidor</a></li>
                 </ul>
             </div>
         </nav>
@@ -41,57 +44,43 @@
                 <div class="container-input">
                     <label for="tipo">Tipo de transação</label>
                     <select id="tipo">
-                        <option>Compra</option>
-                        <option>Venda</option>
+                        <option value="compra">Compra</option>
+                        <option value="venda">Venda</option>
                     </select>
                 </div>
                 <div class="container-input">
                     <label for="nome-mercadoria">Nome da mercadoria</label>
                     <input type="text" id="nome-mercadoria" placeholder="Input"/>
+                    <p id="p-validar-mercadoria">Este campo deve estar preenchido.</p>
                 </div>
                 <div class="container-input">
                     <label for="valor">Valor</label>
-                    <input type="text" id="valor" placeholder="R$ 0,00"/>
+                    <input autocomplete="off" type="text" id="valor" placeholder="R$ 0,00"/>
+                    <p id="p-valor-vazio">Este campo deve estar preenchido.</p>
+                    <p id="p-valor-incompleto">Este campo deve ter pelo menos 3 dígitos.</p>
                 </div>
             </div>
             <div class="container-button">
-                <button type="button" class="adicionar-transacao">Adicionar transação</button>
+                <button type="button" class="adicionar-transacao" id="btn-add">Adicionar transação</button>
             </div>
         </div>
         <div class="extrato">
             <h2>Extrato de transações</h2>
-            <div class="descricao">
-                <h3>Mercadoria</h3>
-                <h3>Valor</h3>
-            </div>
-            <div class="line">
-                <div class="transacao">
-                    <span class="sinal">+</span>
-                    <span>Lorem ipsum dolor sit amet consectetur</span>
+            <div id="lista-transacoes">
+                <div class="descricao">
+                    <h3>Mercadoria</h3>
+                    <h3>Valor</h3>
                 </div>
-                <span>R$ 12.999,99</span>
-            </div>
-            <div class="line">
-                <div class="transacao">
-                    <span class="sinal">-</span>
-                    <span>Quis nostrud exercitation</span>
-                </div>
-                <span>R$ 99,99</span>
-            </div>
-            <div class="line">
-                <div class="transacao">
-                    <span class="sinal">+</span>
-                    <span>Lorem ipsum</span>
-                </div>
-                <span>9,99</span>
-            </div>
-            <div class="resumo-transacoes">
-                <h3>Total</h3>
-                <div class="resultado">
-                    <h3>R$ 12.909,99</h3>
-                    <span>[LUCRO]</span>
+                <div id="container-transacoes"></div>
+                <div class="resumo-transacoes">
+                    <strong>Total</strong>
+                    <div class="resultado">
+                        <strong id="resultado-total">R$ 12.909,99</strong>
+                        <span id="sentenca">[LUCRO]</span>
+                    </div>
                 </div>
             </div>
+            <p id="sem-transacoes">Não há transações cadastradas</p>
         </div>
     </section>
 </body>
