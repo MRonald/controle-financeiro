@@ -1,5 +1,9 @@
 // Elementos do DOM
 const btnLimparDados = document.getElementById('limpar-dados');
+const hamburgerIcon = document.getElementById('hamburguer-icon');
+const bgMenuLateral = document.getElementById('bg-menu-lateral');
+const iconeFecharMenuLateral = document.getElementById('icone-fechar');
+const btnLimparDadosLateral = document.getElementById('limpar-dados-lateral');
 const tabelaTransacoes = document.getElementById('lista-transacoes');
 const semTransacoes = document.getElementById('sem-transacoes');
 const containerLinhasTrasacoes = document.getElementById('container-transacoes');
@@ -8,6 +12,7 @@ const novaTransacao = {
     mercadoria: document.getElementById('nome-mercadoria'),
     valor: document.getElementById('valor')
 };
+const pValidarTipo = document.getElementById('p-validar-tipo');
 const pValidarMercadoria = document.getElementById('p-validar-mercadoria');
 const pValorVazio = document.getElementById('p-valor-vazio');
 const pValorIncompleto = document.getElementById('p-valor-incompleto');
@@ -19,14 +24,14 @@ const sentenca = document.getElementById('sentenca');
 var transacoes = [];
 
 btnLimparDados.addEventListener('click', limparDados);
+hamburgerIcon.addEventListener('click', abrirMenuLateral);
+bgMenuLateral.addEventListener('click', fecharMenuLateral);
+iconeFecharMenuLateral.addEventListener('click', fecharMenuLateral);
+btnLimparDadosLateral.addEventListener('click', limparDados);
+novaTransacao.tipo.addEventListener('change', validarTipo);
 novaTransacao.mercadoria.addEventListener('keyup', validarMercadoria);
 novaTransacao.valor.addEventListener('keyup', validarValor);
 btnAdd.addEventListener('click', adicionarTransacao);
-
-if (transacoes.length != 0) {
-    semTransacoes.style.display = 'none';
-    tabelaTransacoes.style.display = 'block';
-}
 
 // Functions
 function formatarValor(valor) {
@@ -34,6 +39,16 @@ function formatarValor(valor) {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
+}
+function validarTipo() {
+    const tipoTransacaoAtual = novaTransacao.tipo.value;
+    if (tipoTransacaoAtual === "selecione") {
+        pValidarTipo.style.display = "block";
+        return false;
+    } else {
+        pValidarTipo.style.display = "none";
+        return true;
+    }
 }
 function validarMercadoria() {
     const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
@@ -70,9 +85,10 @@ $(document).ready(function() {
 });
 // ---
 function adicionarTransacao() {
+    const validacaoTipo = validarTipo();
     const validacaoMercadoria = validarMercadoria();
     const validacaoValor = validarValor();
-    if (validacaoMercadoria && validacaoValor) {
+    if (validacaoTipo && validacaoMercadoria && validacaoValor) {
         const tipoTransacaoAtual = novaTransacao.tipo.value;
         const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
         const valorTransacaoAtual = (tipoTransacaoAtual === "venda")
@@ -116,6 +132,7 @@ function atualizarExtrato() {
     }
 }
 function limparCampos() {
+    novaTransacao.tipo.value = "selecione";
     novaTransacao.mercadoria.value = "";
     novaTransacao.valor.value = "";
 }
@@ -126,4 +143,12 @@ function calcularTotal() {
     }
     resultadoTotal.innerText = "R$ " + formatarValor(total);
     sentenca.innerText = (total >= 0) ? "[LUCRO]" : "[PREJUÍZO]";
+}
+// Mostrar e exibir menu lateral responsivo
+function abrirMenuLateral() {
+    bgMenuLateral.classList.remove('esconder');
+
+}
+function fecharMenuLateral() {
+    bgMenuLateral.classList.add('esconder');
 }

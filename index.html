@@ -18,7 +18,7 @@
             <div class="icones-esquerda">
                 <img src="imgs/logo.png" alt="Logo newtab contabilidade">
                 <h1>Controle Financeiro</h1>
-                <a href="#menu-lateral"><img src="imgs/bars-solid.svg" alt="Hamburguer icon menu" id="hamburguer-icon"></a>
+                <a id="hamburguer-icon"><img src="imgs/bars-solid.svg" alt="Hamburguer icon menu"></a>
             </div>
             <div class="lista-links">
                 <ul>
@@ -28,14 +28,21 @@
                 </ul>
             </div>
         </nav>
-        <nav id="menu-lateral">
-            <a href="#" class="icone-fechar">X</a>
-            <ul>
-                <li><a href="#">Limpar Dados</a></li>
-                <li><a href="#">Cadastro de Transações</a></li>
-                <li><a href="#">Salvar no Servidor</a></li>
-            </ul>
-        </nav>
+        <div class="bg-menu-lateral esconder" id="bg-menu-lateral">
+            <nav class="menu-lateral">
+                <img 
+                    src="imgs/icon-close.png" 
+                    class="icone-fechar" 
+                    id="icone-fechar" 
+                    alt="Ícone fechar menu lateral"
+                />
+                <ul>
+                    <li><a id="limpar-dados-lateral">Limpar Dados</a></li>
+                    <li><a >Cadastro de Transações</a></li>
+                    <li><a >Salvar no Servidor</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
     <section class="conteudo">
         <div class="form-nova-transacao">
@@ -44,20 +51,22 @@
                 <div class="container-input">
                     <label for="tipo">Tipo de transação</label>
                     <select id="tipo">
+                        <option disabled selected value="selecione">Selecione</option>
                         <option value="compra">Compra</option>
                         <option value="venda">Venda</option>
                     </select>
+                    <p id="p-validar-tipo">Selecione o tipo da transação</p>
                 </div>
                 <div class="container-input">
                     <label for="nome-mercadoria">Nome da mercadoria</label>
                     <input type="text" id="nome-mercadoria" placeholder="Input"/>
-                    <p id="p-validar-mercadoria">Este campo deve estar preenchido.</p>
+                    <p id="p-validar-mercadoria">Este campo deve estar preenchido</p>
                 </div>
                 <div class="container-input">
                     <label for="valor">Valor</label>
                     <input autocomplete="off" type="text" id="valor" placeholder="R$ 0,00"/>
-                    <p id="p-valor-vazio">Este campo deve estar preenchido.</p>
-                    <p id="p-valor-incompleto">Este campo deve ter pelo menos 3 dígitos.</p>
+                    <p id="p-valor-vazio">Este campo deve estar preenchido</p>
+                    <p id="p-valor-incompleto">Este campo deve ter pelo menos 3 dígitos</p>
                 </div>
             </div>
             <div class="container-button">

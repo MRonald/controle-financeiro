@@ -69,47 +69,52 @@ body {
     color: #fff;
     cursor: pointer;
 }
+/* Menu lateral versão responsiva */
 .menu .icones-esquerda #hamburguer-icon {
     display: none;
+    cursor: pointer;
 }
-#menu-lateral {
+.esconder {
+    display: none;
+}
+.bg-menu-lateral {
+    background: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+.menu-lateral {
     position: absolute;
     top: 0;
     right: 0;
     background-color: var(--gray-dark);
     width: 40%;
     min-height: 100vh;
-    display: none;
 }
-#menu-lateral:target {
-    display: initial;
-}
-#menu-lateral .icone-fechar {
-    font-family: Consolas, Monaco;
-    font-size: 1.5rem;
-    color: #ffffff;
-    margin: 10px auto 10px 20px;
+.menu-lateral .icone-fechar {
+    margin: 15px auto 15px 20px;
     padding: 5px;
+    width:20px;
     display: table;
-    text-decoration: none;
-}
-#menu-lateral .icone-fechar:hover {
     cursor: pointer;
 }
-#menu-lateral ul {
+.menu-lateral ul {
     list-style: none;
 }
-#menu-lateral ul li {
+.menu-lateral ul li {
     text-align: right;
 }
-#menu-lateral ul li a {
+.menu-lateral ul li a {
     padding: 15px 20px;
     display: block;
     text-decoration: none;
     color: var(--background-menu);
     font-weight: 600;
+    cursor: pointer;
 }
-#menu-lateral ul li a:hover {
+.menu-lateral ul li a:hover {
     transition: all .3s;
     color: var(--gray-dark);
     background-color: var(--background-menu);
@@ -278,7 +283,7 @@ h3 {
     }
 }
 @media (max-width: 559px) {
-    #menu-lateral {
+    .menu-lateral {
         width: 90%;
     }
     .conteudo {
