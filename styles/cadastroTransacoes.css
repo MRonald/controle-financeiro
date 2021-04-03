@@ -1,11 +1,13 @@
+/* Tabela de transações detalhadas */
 .transacoes-detalhadas {
-    width: 80%;
+    width: 100%;
     margin: auto;
 }
 .lista-transacoes .descricao {
     display: flex;
     border-bottom: 1px solid var(--gray);
     padding-bottom: 5px;
+    margin-top: 20px;
 }
 .lista-transacoes .descricao h3 {
     flex: 1 1 0px;
@@ -14,12 +16,16 @@
 .lista-transacoes .descricao h3:not(:last-child) {
     border-right: 1px solid var(--gray);
 }
-.lista-transacoes .container-transacoes {
+.lista-transacoes .container-transacoes .descricao-responsivo {
+    display: none;
+}
+.lista-transacoes .container-transacoes .detalhes-transacao {
     display: flex;
     border-bottom: 1px solid var(--gray);
     margin-bottom: 5px;
+    align-items: center;
 }
-.lista-transacoes .container-transacoes div {
+.lista-transacoes .container-transacoes .detalhes-transacao div  {
     flex: 1 1 0px;
     text-align: center;
     padding: 5px 0;
@@ -27,30 +33,76 @@
 .transacoes-detalhadas .resumo-transacoes {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     padding: 10px 20px 0 20px;
     margin-top: 5px;
     border-top: 1px solid var(--gray);
 }
-.transacoes-detalhadas .resumo-transacoes div {
+.transacoes-detalhadas .resumo-transacoes > div {
     flex: 1 1 0px;
-    
     display: flex;
-    
-    
+    justify-content: space-between;
 }
-.transacoes-detalhadas .resumo-transacoes div:first-child {
-    border-right: 1px solid var(--gray);
-}
-.transacoes-detalhadas .resumo-transacoes div:last-child {
+.transacoes-detalhadas .resumo-transacoes > div:last-child {
+    border-left: 1px solid var(--gray);
+    margin-left: 20px;
+    padding-left: 20px;
     display: flex;
     align-items: center;
 }
-.transacoes-detalhadas .resumo-transacoes .resultado {
+.transacoes-detalhadas .resumo-transacoes div:last-child .resultado {
     display: flex;
     flex-direction: column;
-    text-align: right;
+    align-items: flex-end;
 }
 .transacoes-detalhadas p#sem-transacoes {
+    display: none;
+    
     text-align: center;
     margin-top: 40px;
+}
+/* Media querys */
+@media (max-width: 559px) {
+    .lista-transacoes .descricao {
+        display: none;
+    }
+    .lista-transacoes .container-transacoes .container-transacao {
+        display: flex;
+        border-bottom: 1px solid var(--gray);
+        margin-bottom: 5px;
+    }
+    .lista-transacoes .container-transacoes .container-transacao:first-child {
+        padding-top: 5px;
+        border-top: 1px solid var(--gray);
+    }
+    .lista-transacoes .container-transacoes .container-transacao div {
+        flex: 1 1 0px;
+    }
+    .lista-transacoes .container-transacoes .descricao-responsivo {
+        display: flex;
+        flex-direction: column;
+        padding-left: 10%;
+    }
+    .lista-transacoes .container-transacoes .descricao-responsivo h3 {
+        padding: 5px 0;
+    }
+    .lista-transacoes .container-transacoes .detalhes-transacao {
+        flex-direction: column;
+        align-items: flex-end;
+        border: none;
+        border-left: 1px solid var(--gray);
+        padding-right: 10%;
+    }
+    .lista-transacoes .container-transacoes .detalhes-transacao div  {
+        text-align: right;
+    }
+    .transacoes-detalhadas .resumo-transacoes > div {
+        min-width: 245.54px;
+    }
+    .transacoes-detalhadas .resumo-transacoes > div:last-child {
+        border: none;
+        border-top: 1px solid var(--gray);
+        margin: 10px 0;
+        padding: 10px 0;
+    }
 }
