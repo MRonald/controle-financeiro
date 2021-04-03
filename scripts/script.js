@@ -1,9 +1,11 @@
 // Elementos do DOM
 const btnLimparDados = document.getElementById('limpar-dados');
+const btnSalvarServidor = document.getElementById('salvar-servidor');
 const hamburgerIcon = document.getElementById('hamburguer-icon');
 const bgMenuLateral = document.getElementById('bg-menu-lateral');
 const iconeFecharMenuLateral = document.getElementById('icone-fechar');
 const btnLimparDadosLateral = document.getElementById('limpar-dados-lateral');
+const btnSalvarServidorLateral = document.getElementById('salvar-servidor-lateral');
 const tabelaTransacoes = document.getElementById('lista-transacoes');
 const semTransacoes = document.getElementById('sem-transacoes');
 const containerLinhasTrasacoes = document.getElementById('container-transacoes');
@@ -24,21 +26,30 @@ const sentenca = document.getElementById('sentenca');
 var transacoes = [];
 
 btnLimparDados.addEventListener('click', limparDados);
+btnSalvarServidor.addEventListener('click', salvarDadosServidor);
 hamburgerIcon.addEventListener('click', abrirMenuLateral);
 bgMenuLateral.addEventListener('click', fecharMenuLateral);
 iconeFecharMenuLateral.addEventListener('click', fecharMenuLateral);
 btnLimparDadosLateral.addEventListener('click', limparDados);
+btnSalvarServidorLateral.addEventListener('click', salvarDadosServidor);
 novaTransacao.tipo.addEventListener('change', validarTipo);
 novaTransacao.mercadoria.addEventListener('keyup', validarMercadoria);
 novaTransacao.valor.addEventListener('keyup', validarValor);
 btnAdd.addEventListener('click', adicionarTransacao);
 
 // Functions
-function formatarValor(valor) {
+window.onload = () => {
+    transacoes = buscarDadosServidor();
+    atualizarExtrato();
+}
+function formatarValorParaUsuario(valor) {
     return Math.abs(valor).toLocaleString("pt-BR", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
+}
+function formatarValorRealParaMaquina(valor) {
+    return parseFloat(valor.toString().replace(".", "").replace(",", "."));
 }
 function validarTipo() {
     const tipoTransacaoAtual = novaTransacao.tipo.value;
@@ -85,6 +96,7 @@ $(document).ready(function() {
 });
 // ---
 function adicionarTransacao() {
+    alert(new Date());
     const validacaoTipo = validarTipo();
     const validacaoMercadoria = validarMercadoria();
     const validacaoValor = validarValor();
@@ -92,10 +104,8 @@ function adicionarTransacao() {
         const tipoTransacaoAtual = novaTransacao.tipo.value;
         const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
         const valorTransacaoAtual = (tipoTransacaoAtual === "venda")
-            ? parseFloat(novaTransacao.valor.value.toString().replace(".", "").replace(",", "."))
-            : 0 - parseFloat(
-                novaTransacao.valor.value.toString().replace(".", "").replace(",", ".")
-            );
+            ? formatarValorRealParaMaquina(novaTransacao.valor.value)
+            : 0 - formatarValorRealParaMaquina(novaTransacao.valor.value);
         transacoes.push({
             tipo: tipoTransacaoAtual,
             mercadoria: mercadoriaTransacaoAtual,
@@ -107,22 +117,39 @@ function adicionarTransacao() {
     }
 }
 function limparDados() {
-    transacoes = [];
-    atualizarExtrato();
+    let resposta = confirm(
+        `ATENÇÃO!\nEssa ação irá apagar os dados de todas as transações no servidor.\nDeseja continuar?`
+    );
+    if (resposta) {
+        transacoes = [];
+        salvarDadosServidor();
+        atualizarExtrato();
+    }
+}
+function criarLineTransacao(transacao) {
+    const novaLinha = document.createElement('div');
+    novaLinha.classList.add("line");
+    novaLinha.innerHTML = `
+        <div class="transacao">
+            <span class="sinal">${transacao.tipo === "venda" ? "+" : "-"}</span>
+            <span>${transacao.mercadoria}</span>
+        </div>
+        <span>R$ ${formatarValorParaUsuario(transacao.valor)}</span>
+    `;
+    containerLinhasTrasacoes.append(novaLinha);
 }
 function atualizarExtrato() {
     if (transacoes.length != 0) {
-        const ultimaTransacao = transacoes[transacoes.length - 1];
-        const novaTag = document.createElement('div');
-        novaTag.classList.add("line");
-        novaTag.innerHTML = `
-            <div class="transacao">
-                <span class="sinal">${ultimaTransacao.tipo === "venda" ? "+" : "-"}</span>
-                <span>${ultimaTransacao.mercadoria}</span>
-            </div>
-            <span>R$ ${formatarValor(ultimaTransacao.valor)}</span>
-        `;
-        containerLinhasTrasacoes.append(novaTag);
+        if ((novaTransacao.tipo.value === "selecione") &&
+            (novaTransacao.mercadoria.value === "") &&
+            (novaTransacao.valor.value === "")) {
+            for (let transacao of transacoes) {
+                criarLineTransacao(transacao);
+            }
+        } else {
+            const ultimaTransacao = transacoes[transacoes.length - 1];
+            criarLineTransacao(ultimaTransacao);
+        }
         semTransacoes.style.display = 'none';
         tabelaTransacoes.style.display = 'block';
     } else {
@@ -141,8 +168,21 @@ function calcularTotal() {
     for (transacao of transacoes) {
         total += transacao.valor;
     }
-    resultadoTotal.innerText = "R$ " + formatarValor(total);
+    resultadoTotal.innerText = "R$ " + formatarValorParaUsuario(total);
     sentenca.innerText = (total >= 0) ? "[LUCRO]" : "[PREJUÍZO]";
+}
+function salvarDadosServidor() {
+    if (transacoes.length === 0) {
+        localStorage.setItem('transacoesNC', '');
+    } else {
+        localStorage.setItem('transacoesNC', JSON.stringify(transacoes));
+    }
+}
+function buscarDadosServidor()  {
+    let dados = (localStorage.getItem('transacoesNC') != '')
+    ? JSON.parse(localStorage.getItem('transacoesNC'))
+    : [];
+    return dados;
 }
 // Mostrar e exibir menu lateral responsivo
 function abrirMenuLateral() {
