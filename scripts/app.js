@@ -45,6 +45,33 @@ function formatarValorParaUsuario(valor) {
 function formatarValorRealParaMaquina(valor) {
     return parseFloat(valor.toString().replace(".", "").replace(",", "."));
 }
+function getDataAtual() {
+    const data = new Date();
+    let dia = data.getDate();
+    if (dia < 10) {
+        dia = `0${dia}`;
+    }
+    let mes = data.getMonth() + 1;
+    if (mes < 10) {
+        mes = `0${mes}`;
+    }
+    let ano = data.getFullYear();
+    const dataFormatada = `${dia}/${mes}/${ano}`;
+    return dataFormatada;
+}
+function getHoraAtual() {
+    const data = new Date();
+    let hora = data.getHours();
+    if (hora < 10) {
+        hora = `0${hora}`;
+    }
+    let minutos = data.getMinutes();
+    if (minutos < 10) {
+        minutos = `0${minutos}`;
+    }
+    const horaFormatada = `${hora}:${minutos}`;
+    return horaFormatada;
+}
 function validarTipo() {
     const tipoTransacaoAtual = novaTransacao.tipo.value;
     if (tipoTransacaoAtual === "selecione") {
@@ -99,10 +126,14 @@ function adicionarTransacao() {
         const valorTransacaoAtual = (tipoTransacaoAtual === "venda")
             ? formatarValorRealParaMaquina(novaTransacao.valor.value)
             : 0 - formatarValorRealParaMaquina(novaTransacao.valor.value);
+        const dataTransacaoAtual = getDataAtual();
+        const horaTransacaoAtual = getHoraAtual();
         transacoes.push({
             tipo: tipoTransacaoAtual,
             mercadoria: mercadoriaTransacaoAtual,
-            valor: valorTransacaoAtual
+            valor: valorTransacaoAtual,
+            data: dataTransacaoAtual,
+            hora: horaTransacaoAtual
         });
         atualizarExtrato();
         calcularTotal();
