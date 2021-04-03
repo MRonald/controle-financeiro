@@ -121,6 +121,15 @@ function adicionarTransacao() {
     const validacaoMercadoria = validarMercadoria();
     const validacaoValor = validarValor();
     if (validacaoTipo && validacaoMercadoria && validacaoValor) {
+        let ultimaTransacao;
+        if (transacoes.length > 0) {
+            ultimaTransacao = transacoes[transacoes.length - 1];
+        } else {
+            ultimaTransacao = undefined;
+        }
+        const id = (ultimaTransacao !== undefined)
+            ? ultimaTransacao.id + 1
+            : 1;
         const tipoTransacaoAtual = novaTransacao.tipo.value;
         const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
         const valorTransacaoAtual = (tipoTransacaoAtual === "venda")
@@ -129,6 +138,7 @@ function adicionarTransacao() {
         const dataTransacaoAtual = getDataAtual();
         const horaTransacaoAtual = getHoraAtual();
         transacoes.push({
+            id: id,
             tipo: tipoTransacaoAtual,
             mercadoria: mercadoriaTransacaoAtual,
             valor: valorTransacaoAtual,
@@ -203,8 +213,12 @@ function salvarDadosServidor() {
     }
 }
 function buscarDadosServidor()  {
-    let dados = (localStorage.getItem('transacoesNC') != '')
-    ? JSON.parse(localStorage.getItem('transacoesNC'))
-    : [];
+    let dados;
+    if ((localStorage.getItem('transacoesNC') != null) &&
+        (localStorage.getItem('transacoesNC') != '')) {
+        dados = JSON.parse(localStorage.getItem('transacoesNC'));
+    } else {
+        dados = [];
+    }
     return dados;
 }
