@@ -1,0 +1,56 @@
+.transacoes-detalhadas {
+    width: 80%;
+    margin: auto;
+}
+.lista-transacoes .descricao {
+    display: flex;
+    border-bottom: 1px solid var(--gray);
+    padding-bottom: 5px;
+}
+.lista-transacoes .descricao h3 {
+    flex: 1 1 0px;
+    text-align: center;
+}
+.lista-transacoes .descricao h3:not(:last-child) {
+    border-right: 1px solid var(--gray);
+}
+.lista-transacoes .container-transacoes {
+    display: flex;
+    border-bottom: 1px solid var(--gray);
+    margin-bottom: 5px;
+}
+.lista-transacoes .container-transacoes div {
+    flex: 1 1 0px;
+    text-align: center;
+    padding: 5px 0;
+}
+.transacoes-detalhadas .resumo-transacoes {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px 0 20px;
+    margin-top: 5px;
+    border-top: 1px solid var(--gray);
+}
+.transacoes-detalhadas .resumo-transacoes div {
+    flex: 1 1 0px;
+    
+    display: flex;
+    
+    
+}
+.transacoes-detalhadas .resumo-transacoes div:first-child {
+    border-right: 1px solid var(--gray);
+}
+.transacoes-detalhadas .resumo-transacoes div:last-child {
+    display: flex;
+    align-items: center;
+}
+.transacoes-detalhadas .resumo-transacoes .resultado {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+.transacoes-detalhadas p#sem-transacoes {
+    text-align: center;
+    margin-top: 40px;
+}

@@ -1,9 +1,6 @@
 // Elementos do DOM
 const btnLimparDados = document.getElementById('limpar-dados');
 const btnSalvarServidor = document.getElementById('salvar-servidor');
-const hamburgerIcon = document.getElementById('hamburguer-icon');
-const bgMenuLateral = document.getElementById('bg-menu-lateral');
-const iconeFecharMenuLateral = document.getElementById('icone-fechar');
 const btnLimparDadosLateral = document.getElementById('limpar-dados-lateral');
 const btnSalvarServidorLateral = document.getElementById('salvar-servidor-lateral');
 const tabelaTransacoes = document.getElementById('lista-transacoes');
@@ -27,9 +24,6 @@ var transacoes = [];
 
 btnLimparDados.addEventListener('click', limparDados);
 btnSalvarServidor.addEventListener('click', salvarDadosServidor);
-hamburgerIcon.addEventListener('click', abrirMenuLateral);
-bgMenuLateral.addEventListener('click', fecharMenuLateral);
-iconeFecharMenuLateral.addEventListener('click', fecharMenuLateral);
 btnLimparDadosLateral.addEventListener('click', limparDados);
 btnSalvarServidorLateral.addEventListener('click', salvarDadosServidor);
 novaTransacao.tipo.addEventListener('change', validarTipo);
@@ -96,7 +90,6 @@ $(document).ready(function() {
 });
 // ---
 function adicionarTransacao() {
-    alert(new Date());
     const validacaoTipo = validarTipo();
     const validacaoMercadoria = validarMercadoria();
     const validacaoValor = validarValor();
@@ -183,12 +176,4 @@ function buscarDadosServidor()  {
     ? JSON.parse(localStorage.getItem('transacoesNC'))
     : [];
     return dados;
-}
-// Mostrar e exibir menu lateral responsivo
-function abrirMenuLateral() {
-    bgMenuLateral.classList.remove('esconder');
-
-}
-function fecharMenuLateral() {
-    bgMenuLateral.classList.add('esconder');
 }

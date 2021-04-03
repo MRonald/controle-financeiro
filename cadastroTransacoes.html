@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="scripts/menuLateral.js" defer></script>
+    <script src="scripts/cadastroTransacoes.js" defer></script>
+    <link rel="stylesheet" href="styles/main.css"/>
+    <link rel="stylesheet" href="styles/cadastroTransacoes.css"/>
+    <title>Cadastro de Transações - NC</title>
+</head>
+<body>
+    <div class="menu-container">
+        <nav class="menu">
+            <div class="icones-esquerda">
+                <img src="imgs/logo.png" alt="Logo newtab contabilidade">
+                <h1>Controle Financeiro</h1>
+                <a id="hamburguer-icon"><img src="imgs/bars-solid.svg" alt="Hamburguer icon menu"></a>
+            </div>
+            <div class="lista-links">
+                <ul>
+                    <li><a href="app.html">Voltar ao App</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="bg-menu-lateral esconder" id="bg-menu-lateral">
+            <nav class="menu-lateral">
+                <img 
+                    src="imgs/icon-close.png" 
+                    class="icone-fechar" 
+                    id="icone-fechar" 
+                    alt="Ícone fechar menu lateral"
+                />
+                <ul>
+                    <li><a href="app.html">Voltar ao App</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <main class="conteudo">
+        <div class="transacoes-detalhadas">
+            <h2>Detalhes de transações</h2>
+            <div class="lista-transacoes">
+                <div class="descricao">
+                    <h3>Tipo</h3>
+                    <h3>Mercadoria</h3>
+                    <h3>Valor</h3>
+                    <h3>Data</h3>
+                    <h3>Hora</h3>
+                </div>
+                <div class="container-transacoes">
+                    <div>Compra</div>
+                    <div>Água</div>
+                    <div>R$ 2,50</div>
+                    <div>02/04/2021</div>
+                    <div>22:15</div>
+                </div>
+                <div class="resumo-transacoes">
+                    <div>
+                        <strong>Número de transações</strong>
+                        <strong id="numero-transacoes">500</strong>
+                    </div>
+                    <div>
+                        <strong>Total</strong>
+                        <div class="resultado">
+                            <strong id="resultado-total">R$ 12.909,99</strong>
+                            <span id="sentenca">[LUCRO]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p id="sem-transacoes">Não há transações cadastradas</p>
+        </div>
+    </main>
+</body>
+</html>

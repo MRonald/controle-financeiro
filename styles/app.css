@@ -1,0 +1,146 @@
+/* Formulário de nova transação */
+.form-nova-transacao {
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    display: table;
+    flex-direction: column;
+    padding: 10px;
+    width: 40%;
+    min-width: 279px;
+}
+.form-nova-transacao .container-input {
+    display: flex;
+    flex-direction: column;
+}
+.form-nova-transacao .container-input label {
+    margin: 15px 0px 5px 0px;
+}
+.form-nova-transacao .container-input input,
+.form-nova-transacao .container-input select {
+    padding: 10px;
+    color: var(--gray);
+    font-size: 1.0rem;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+}
+.form-nova-transacao .container-input p {
+    color: #ff182b;
+    text-align: right;
+    display: none;
+}
+.form-nova-transacao .container-button {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.form-nova-transacao .container-button button.adicionar-transacao {
+    border: none;
+    background-color: var(--gray-dark);
+    color: #ffffff;
+    border-radius: 5px;
+    font-size: 1.0rem;
+    padding: 10px 0px;
+    margin-top: 15px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+.form-nova-transacao .container-button button.adicionar-transacao:hover {
+    cursor: pointer;
+    background-color: var(--gray);
+}
+/* Extrato */
+.extrato {
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+    min-width: 300px;
+}
+.extrato #lista-transacoes {
+    display: none;
+}
+.extrato p#sem-transacoes {
+    text-align: center;
+    margin-top: 40px;
+}
+.extrato .descricao {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 25px;
+    padding-bottom: 5px;
+    margin-top: 15px;
+    border-bottom: 1px solid var(--gray);
+}
+.extrato .line {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gray);
+    padding: 8px 0px;
+}
+.extrato .line .transacao .sinal {
+    width: 25px;
+    text-align: center;
+}
+.extrato .line .transacao {
+    display: flex;
+    justify-content: space-between;
+    max-width: 65%;
+}
+.extrato .resumo-transacoes {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 25px;
+    padding-top: 10px;
+    margin-top: 5px;
+    border-top: 1px solid var(--gray);
+}
+.extrato .resumo-transacoes .resultado {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+/* Media-querys */
+@media (max-width: 800px) {
+    .form-nova-transacao, .extrato {
+        width: 100%;
+    }
+    .form-nova-transacao .containers-wrapper {
+        display: flex;
+    }
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(1),
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(3) {
+        width: 25%;
+    }
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(2) {
+        margin: 0 3%;
+        width: 44%;
+    }
+    .form-nova-transacao .container-button button.adicionar-transacao {
+        width: 30%;
+    }
+    .extrato {
+        margin-top: 40px;
+    }
+}
+@media (max-width: 559px) {
+    .form-nova-transacao {
+        border: none;
+        border-bottom: 1px solid var(--gray);
+        padding-bottom: 30px;
+    }
+    .form-nova-transacao > h2 {
+        display: none;
+    }
+    .form-nova-transacao .containers-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(1),
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(2),
+    .form-nova-transacao .containers-wrapper .container-input:nth-child(3) {
+        margin: auto 0px;
+        width: 100%;
+    }
+    .form-nova-transacao .container-button button.adicionar-transacao {
+        width: 100%;
+    }
+}
