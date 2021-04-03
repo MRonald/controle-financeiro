@@ -178,7 +178,7 @@ function salvarDadosServidor() {
     }
 }
 function buscarDadosServidor()  {
-    let dados = (localStorage.getItem('transacoesNC') != '')
+    let dados = (localStorage.getItem('transacoesNC').length > 0)
     ? JSON.parse(localStorage.getItem('transacoesNC'))
     : [];
     return dados;
