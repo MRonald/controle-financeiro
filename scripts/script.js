@@ -96,7 +96,6 @@ $(document).ready(function() {
 });
 // ---
 function adicionarTransacao() {
-    alert(new Date());
     const validacaoTipo = validarTipo();
     const validacaoMercadoria = validarMercadoria();
     const validacaoValor = validarValor();
