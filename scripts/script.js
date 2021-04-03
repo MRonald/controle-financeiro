@@ -178,9 +178,13 @@ function salvarDadosServidor() {
     }
 }
 function buscarDadosServidor()  {
-    let dados = (localStorage.getItem('transacoesNC').length > 0)
-    ? JSON.parse(localStorage.getItem('transacoesNC'))
-    : [];
+    let dados;
+    if ((localStorage.getItem('transacoesNC') != null) &&
+        (localStorage.getItem('transacoesNC') != '')) {
+        dados = JSON.parse(localStorage.getItem('transacoesNC'));
+    } else {
+        dados = [];
+    }
     return dados;
 }
 // Mostrar e exibir menu lateral responsivo
