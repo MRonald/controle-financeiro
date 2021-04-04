@@ -1,6 +1,7 @@
 /* Estilos gerais */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 :root {
-    --background-menu: #e0e0e0;
+    --gray-light: #e0e0e0;
     --gray: #808080;
     --gray-dark: #333333;
 }
@@ -15,7 +16,7 @@ body {
 /* Menu */
 .menu-container {
     width: 100%;
-    background-color: var(--background-menu);
+    background-color: var(--gray-light);
     min-width: 324px;
 }
 .menu {
@@ -110,14 +111,14 @@ body {
     padding: 15px 20px;
     display: block;
     text-decoration: none;
-    color: var(--background-menu);
+    color: var(--gray-light);
     font-weight: 600;
     cursor: pointer;
 }
 .menu-lateral ul li a:hover {
     transition: all .3s;
     color: var(--gray-dark);
-    background-color: var(--background-menu);
+    background-color: var(--gray-light);
 }
 h2 {
     text-align: center;

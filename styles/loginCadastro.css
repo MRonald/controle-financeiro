@@ -1,0 +1,99 @@
+body {
+    background-color: var(--gray-light);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-calculadora {
+    height: 80vh;
+    transform: translateY(-50%) rotate(35deg);
+    filter: opacity(0.2);
+    position: absolute;
+    top: calc(100vh - 50%);
+    left: -150px;
+    z-index: 0;
+}
+.tela-main {
+    width: 35%;
+    min-width: 300px;
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0;
+    z-index: 1;
+}
+.tela-main > img {
+    width: 130px;
+    margin-bottom: 20px;
+}
+.tela-main .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+.tela-main .input-wrapper:not(:first-child) {
+    margin-top: 10px;
+}
+.tela-main .input-wrapper label {
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+.tela-main .input-wrapper input {
+    border: none;
+    font-size: 1.1rem;
+    padding: 5px;
+}
+.tela-main .btn-submit-wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+.tela-main .btn-submit-wrapper input[type="submit"] {
+    font-size: 1.1rem;
+    padding: 7px 25px;
+    cursor: pointer;
+    border: none;
+    border-radius: 50px;
+    background-color: var(--gray-dark);
+    color: white;
+}
+.tela-main .btn-submit-wrapper input[type="submit"]:hover {
+    transition: all .3s;
+    background-color: var(--gray);
+}
+.tela-main > p {
+    margin-top: 20px;
+}
+.tela-main > p > a {
+    color: var(--gray-dark);
+    font-weight: 700;
+}
+.tela-main > p > a:hover {
+    transition: all .3s;
+    color: var(--gray);
+}
+.btn-anonymous-wrapper {
+    margin-top: 20px;
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.4);
+}
+.btn-anonymous-wrapper a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--gray-dark);
+    text-decoration: none;
+    margin: auto;
+    padding: 5px 0;
+    width: 220px;
+}
+.btn-anonymous-wrapper a:hover {
+    text-decoration: underline;
+}
+.btn-anonymous-wrapper a img {
+    width: 30px;
+    margin-left: 5px;
+}
