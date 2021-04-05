@@ -4,31 +4,37 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="scripts/cadastroUsuario.js" defer></script>
     <link rel="stylesheet" href="styles/main.css"/>
     <link rel="stylesheet" href="styles/loginCadastro.css"/>
-    <title>Cadastro de Transações - NC</title>
+    <title>Cadastro de Usuário - NC</title>
 </head>
 <body>
     <img src="imgs/calculator.png" alt="Calculadora" class="img-calculadora"/>
     <main class="tela-main">
         <img src="imgs/user-add.png" alt="Icone cadastro usuário"/>
-        <form id="form-cadastro">
+        <p id="erro">Usuário já existe</p>
+        <div>
             <div class="input-wrapper">
                 <label for="nome-completo">Nome Completo</label>
                 <input type="text" id="nome-completo"/>
+                <p>Preencha este campo</p>
+                <p id="p-nome-incompleto">Digite nome e sobrenome</p>
             </div>
             <div class="input-wrapper">
                 <label for="nova-senha">Crie uma senha</label>
                 <input type="password" id="nova-senha"/>
+                <p>Preencha este campo</p>
             </div>
             <div class="input-wrapper">
                 <label for="nova-senha-rep">Repita a senha</label>
-                <input type="password" id="nova-senha-rep"/>
+                <input type="password" id="nova-senha-confirm"/>
+                <p>Preencha este campo</p>
             </div>
             <div class="btn-submit-wrapper">
-                <input type="submit" value="Cadastrar" id="btn-submit"/>
+                <button id="btn-submit">Cadastrar</button>
             </div>
-        </form>
+        </div>
         <p><a href="index.html">Voltar para a tela de login</a></p>
     </main>
 </body>

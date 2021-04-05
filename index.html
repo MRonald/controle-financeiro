@@ -4,6 +4,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="scripts/login.js" defer></script>
     <link rel="stylesheet" href="styles/main.css"/>
     <link rel="stylesheet" href="styles/loginCadastro.css"/>
     <title>Cadastro de Transações - NC</title>
@@ -12,22 +13,25 @@
     <img src="imgs/calculator.png" alt="Calculadora" class="img-calculadora"/>
     <main class="tela-main">
         <img src="imgs/user-login.png" alt="Icone login"/>
-        <form id="form-login">
+        <p id="erro">Usuário e/ou senha incorretos</p>
+        <div>
             <div class="input-wrapper">
                 <label for="nome-usuario">Nome de Usuário</label>
                 <input type="text" id="nome-usuario"/>
+                <p id="nome-usuario-vazia">Preencha este campo</p>
             </div>
             <div class="input-wrapper">
                 <label for="senha-usuario">Senha</label>
                 <input type="password" id="senha-usuario"/>
+                <p id="senha-usuario-vazia">Preencha este campo</p>
             </div>
             <div class="btn-submit-wrapper">
-                <input type="submit" value="Entrar" id="btn-submit"/>
+                <button id="btn-submit">Entrar</button>
             </div>
-        </form>
+        </div>
         <p>Ainda não tem conta? <a href="cadastroUsuario.html">Cadastre-se</a></p>
         <div class="btn-anonymous-wrapper">
-            <a href="app.html">
+            <a href="app.html" id="entrar-anonymous">
                 <p>Entrar como Anonymous</p>
                 <img src="imgs/anonymous.png"/>
             </a>

@@ -47,11 +47,16 @@ body {
     font-size: 1.1rem;
     padding: 5px;
 }
+.tela-main .input-wrapper p {
+    display: none;
+    text-align: right;
+    color: var(--invalid);
+}
 .tela-main .btn-submit-wrapper {
     text-align: center;
     margin-top: 20px;
 }
-.tela-main .btn-submit-wrapper input[type="submit"] {
+.tela-main .btn-submit-wrapper button {
     font-size: 1.1rem;
     padding: 7px 25px;
     cursor: pointer;
@@ -60,9 +65,15 @@ body {
     background-color: var(--gray-dark);
     color: white;
 }
-.tela-main .btn-submit-wrapper input[type="submit"]:hover {
+.tela-main .btn-submit-wrapper button:hover {
     transition: all .3s;
     background-color: var(--gray);
+}
+.tela-main > #erro {
+    margin: 10px auto;
+    text-align: center;
+    color: var(--invalid);
+    display: none;
 }
 .tela-main > p {
     margin-top: 20px;
@@ -96,4 +107,16 @@ body {
 .btn-anonymous-wrapper a img {
     width: 30px;
     margin-left: 5px;
+}
+/* Detalhes tela de boas-vindas */
+.tela-main .titulo-boas-vindas {
+    font-size: 1.2rem;
+    text-align: justify;
+}
+.tela-main .paragrafo-boas-vindas {
+    text-align: justify;
+    padding: 0 40px;
+}
+.tela-main .paragrafo-boas-vindas #msg-nome-usuario {
+    font-weight: bold;
 }

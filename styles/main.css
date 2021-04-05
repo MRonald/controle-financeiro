@@ -4,6 +4,7 @@
     --gray-light: #e0e0e0;
     --gray: #808080;
     --gray-dark: #333333;
+    --invalid: #ff182b;
 }
 * {
     margin: 0;
