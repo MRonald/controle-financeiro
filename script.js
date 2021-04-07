@@ -1,11 +1,9 @@
 // Elementos do DOM
 const btnLimparDados = document.getElementById('limpar-dados');
-const btnSalvarServidor = document.getElementById('salvar-servidor');
 const hamburgerIcon = document.getElementById('hamburguer-icon');
 const bgMenuLateral = document.getElementById('bg-menu-lateral');
 const iconeFecharMenuLateral = document.getElementById('icone-fechar');
 const btnLimparDadosLateral = document.getElementById('limpar-dados-lateral');
-const btnSalvarServidorLateral = document.getElementById('salvar-servidor-lateral');
 const tabelaTransacoes = document.getElementById('lista-transacoes');
 const semTransacoes = document.getElementById('sem-transacoes');
 const containerLinhasTrasacoes = document.getElementById('container-transacoes');
@@ -27,12 +25,10 @@ var transacoes = [];
 var digitosCampoValor = '';
 
 btnLimparDados.addEventListener('click', limparDados);
-btnSalvarServidor.addEventListener('click', salvarDadosServidor);
 hamburgerIcon.addEventListener('click', abrirMenuLateral);
 bgMenuLateral.addEventListener('click', fecharMenuLateral);
 iconeFecharMenuLateral.addEventListener('click', fecharMenuLateral);
 btnLimparDadosLateral.addEventListener('click', limparDados);
-btnSalvarServidorLateral.addEventListener('click', salvarDadosServidor);
 novaTransacao.tipo.addEventListener('change', validarTipo);
 novaTransacao.mercadoria.addEventListener('keyup', validarMercadoria);
 novaTransacao.valor.addEventListener('keyup', validarValor);
@@ -43,7 +39,7 @@ btnAdd.addEventListener('click', adicionarTransacao);
 
 // Functions
 window.onload = () => {
-    transacoes = buscarDadosServidor();
+    transacoes = buscarDadosLocalStorage();
     atualizarExtrato();
 }
 function formatarValorParaUsuario(valor) {
@@ -115,6 +111,7 @@ function adicionarTransacao() {
             mercadoria: mercadoriaTransacaoAtual,
             valor: valorTransacaoAtual
         });
+        salvarDadosLocalStorage();
         atualizarExtrato();
         calcularTotal();
         limparCampos();
@@ -122,14 +119,9 @@ function adicionarTransacao() {
     }
 }
 function limparDados() {
-    let resposta = confirm(
-        `ATENÇÃO!\nEssa ação irá apagar os dados de todas as transações no servidor.\nDeseja continuar?`
-    );
-    if (resposta) {
-        transacoes = [];
-        salvarDadosServidor();
-        atualizarExtrato();
-    }
+    transacoes = [];
+    salvarDadosLocalStorage();
+    atualizarExtrato();
 }
 function criarLineTransacao(transacao) {
     const novaLinha = document.createElement('div');
@@ -176,14 +168,14 @@ function calcularTotal() {
     resultadoTotal.innerText = "R$ " + formatarValorParaUsuario(total);
     sentenca.innerText = (total >= 0) ? "[LUCRO]" : "[PREJUÍZO]";
 }
-function salvarDadosServidor() {
+function salvarDadosLocalStorage() {
     if (transacoes.length === 0) {
         localStorage.setItem('transacoesNC', '');
     } else {
         localStorage.setItem('transacoesNC', JSON.stringify(transacoes));
     }
 }
-function buscarDadosServidor()  {
+function buscarDadosLocalStorage()  {
     let dados;
     if ((localStorage.getItem('transacoesNC') != null) &&
         (localStorage.getItem('transacoesNC') != '')) {
@@ -218,19 +210,20 @@ function mascaraValor(digito, tipoDeEntrada) {
         digitosCampoValor += digito;
     }
     let valorFormatado = '';
-    if (digitosCampoValor.length <= 2) {
+    if (digitosCampoValor.length === 1) {
+        valorFormatado += '00' + digitosCampoValor;
+    } else if (digitosCampoValor.length === 2) {
+        valorFormatado += '0' + digitosCampoValor;
+    } else {
         valorFormatado = digitosCampoValor;
-        return valorFormatado;
     }
-    if (digitosCampoValor.length >= 3) {
-        const doisUltimos = digitosCampoValor.substr(-2);
-        const resto = digitosCampoValor.substr(0, digitosCampoValor.length - 2);
-        valorFormatado = resto + ',' + doisUltimos;
-        if (valorFormatado.length >= 7) {
-            const ultimosSeis = valorFormatado.substr(-6);
-            const resto = valorFormatado.substr(0, valorFormatado.length - 6);
-            valorFormatado = resto + '.' + ultimosSeis;
-        }
-        return valorFormatado;
+    const doisUltimos = valorFormatado.substr(-2);
+    const resto = valorFormatado.substr(0, valorFormatado.length - 2);
+    valorFormatado = resto + ',' + doisUltimos;
+    if (valorFormatado.length >= 7) {
+        const ultimosSeis = valorFormatado.substr(-6);
+        const resto = valorFormatado.substr(0, valorFormatado.length - 6);
+        valorFormatado = resto + '.' + ultimosSeis;
     }
+    return valorFormatado;
 }
