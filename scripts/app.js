@@ -224,9 +224,7 @@ function buscarDadosServidor()  {
 }
 // Máscara valor contábil
 function mascaraValor(digito, tipoDeEntrada) {
-    // Valores válidos
     const digitosValidos = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    // Valor inverso
     let digitoValido = false;
     for (let dig of digitosValidos) {
         if (dig == digito) {
@@ -235,14 +233,11 @@ function mascaraValor(digito, tipoDeEntrada) {
     }
     if ((tipoDeEntrada === 'deleteContentBackward') ||
         (tipoDeEntrada === 'deleteContentForward')) {
-        // Apaga dígito
         digitosCampoValor = digitosCampoValor.substr(0, digitosCampoValor.length - 1);
     }
     if (digitoValido) {
-        //Insere dígito
         digitosCampoValor += digito;
     }
-    // Verificações
     let valorFormatado = '';
     if (digitosCampoValor.length <= 2) {
         valorFormatado = digitosCampoValor;
