@@ -24,6 +24,7 @@ const sentenca = document.getElementById('sentenca');
 
 // Variáveis globais e listeners
 var transacoes = [];
+var digitosCampoValor = '';
 
 btnLimparDados.addEventListener('click', limparDados);
 btnSalvarServidor.addEventListener('click', salvarDadosServidor);
@@ -35,6 +36,9 @@ btnSalvarServidorLateral.addEventListener('click', salvarDadosServidor);
 novaTransacao.tipo.addEventListener('change', validarTipo);
 novaTransacao.mercadoria.addEventListener('keyup', validarMercadoria);
 novaTransacao.valor.addEventListener('keyup', validarValor);
+novaTransacao.valor.addEventListener('input', (e) => {
+    e.target.value = mascaraValor(e.data, e.inputType);
+})
 btnAdd.addEventListener('click', adicionarTransacao);
 
 // Functions
@@ -90,11 +94,6 @@ function validarValor() {
         return false;
     }
 }
-// Masks jQuery
-$(document).ready(function() {
-    $("#valor").mask("999.999.999.990,00", {reverse: true});
-});
-// ---
 function adicionarTransacao() {
     const validacaoTipo = validarTipo();
     const validacaoMercadoria = validarMercadoria();
@@ -113,6 +112,7 @@ function adicionarTransacao() {
         atualizarExtrato();
         calcularTotal();
         limparCampos();
+        digitosCampoValor = '';
     }
 }
 function limparDados() {
@@ -194,4 +194,37 @@ function abrirMenuLateral() {
 }
 function fecharMenuLateral() {
     bgMenuLateral.classList.add('esconder');
+}
+// Máscara valor contábil
+function mascaraValor(digito, tipoDeEntrada) {
+    const digitosValidos = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let digitoValido = false;
+    for (let dig of digitosValidos) {
+        if (dig == digito) {
+            digitoValido = true;
+        }
+    }
+    if ((tipoDeEntrada === 'deleteContentBackward') ||
+        (tipoDeEntrada === 'deleteContentForward')) {
+        digitosCampoValor = digitosCampoValor.substr(0, digitosCampoValor.length - 1);
+    }
+    if (digitoValido) {
+        digitosCampoValor += digito;
+    }
+    let valorFormatado = '';
+    if (digitosCampoValor.length <= 2) {
+        valorFormatado = digitosCampoValor;
+        return valorFormatado;
+    }
+    if (digitosCampoValor.length >= 3) {
+        const doisUltimos = digitosCampoValor.substr(-2);
+        const resto = digitosCampoValor.substr(0, digitosCampoValor.length - 2);
+        valorFormatado = resto + ',' + doisUltimos;
+        if (valorFormatado.length >= 7) {
+            const ultimosSeis = valorFormatado.substr(-6);
+            const resto = valorFormatado.substr(0, valorFormatado.length - 6);
+            valorFormatado = resto + '.' + ultimosSeis;
+        }
+        return valorFormatado;
+    }
 }

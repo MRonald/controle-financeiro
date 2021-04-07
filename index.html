@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <script src="scripts/jquery-3.3.1.js" defer></script>
-    <script src="scripts/jquery.mask.min.js" defer></script>
-    <script src="scripts/script.js" defer></script>
+    <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
     <title>Controle Financeiro</title>
 </head>
@@ -64,7 +62,7 @@
                 </div>
                 <div class="container-input">
                     <label for="valor">Valor</label>
-                    <input autocomplete="off" type="text" id="valor" placeholder="R$ 0,00"/>
+                    <input autocomplete="off" type="text" id="valor" placeholder="R$ 0,00" maxlength="10"/>
                     <p id="p-valor-vazio">Este campo deve estar preenchido</p>
                     <p id="p-valor-incompleto">Este campo deve ter pelo menos 3 dígitos</p>
                 </div>
