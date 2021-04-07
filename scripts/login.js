@@ -39,7 +39,7 @@ function verificarCampoSenha() {
 }
 function validarCredenciais(usuarioInformado, senhaInformada) {
     for (let usuario of usuarios) {
-        if ((usuario.nome === usuarioInformado) &&
+        if ((usuario.usuario === usuarioInformado) &&
             (usuario.senha === senhaInformada)) {
             return true;
         }
@@ -78,7 +78,7 @@ function buscarUsuariosServidor() {
         (dadosServidor === '')) {
         usuarios = [];
     } else {
-        usuarios = dadosServidor;
+        usuarios = JSON.parse(dadosServidor);
     }
     return usuarios;
 }

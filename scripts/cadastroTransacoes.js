@@ -53,11 +53,12 @@ function atualizarListaTransacoes() {
 }
 function buscarDadosServidor() {
     let dados;
-    if ((localStorage.getItem('transacoesNC') != null) &&
-        (localStorage.getItem('transacoesNC') != '')) {
-        dados = JSON.parse(localStorage.getItem('transacoesNC'));
-    } else {
+    const dadosServidor = localStorage.getItem('transacoesNC');
+    if ((dadosServidor === null) ||
+        (dadosServidor === '')) {
         dados = [];
+    } else {
+        dados = JSON.parse(dadosServidor);
     }
     return dados;
 }

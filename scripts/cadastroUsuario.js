@@ -101,12 +101,12 @@ function cadastrarUsuario() {
 }
 function buscarUsuariosServidor() {
     let usuarios;
-    const dadosServidor = JSON.parse(localStorage.getItem('usuarios'));
+    const dadosServidor = localStorage.getItem('usuarios');
     if ((dadosServidor === null) ||
         (dadosServidor === '')) {
         usuarios = [];
     } else {
-        usuarios = dadosServidor;
+        usuarios = JSON.parse(dadosServidor);
     }
     return usuarios;
 }

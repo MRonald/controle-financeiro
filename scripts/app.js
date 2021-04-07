@@ -9,7 +9,7 @@ const containerLinhasTrasacoes = document.getElementById('container-transacoes')
 const novaTransacao = {
     tipo: document.getElementById('tipo'),
     mercadoria: document.getElementById('nome-mercadoria'),
-    valor: document.getElementById('valor')
+    valor: document.getElementById('valor'),
 };
 const pValidarTipo = document.getElementById('p-validar-tipo');
 const pValidarMercadoria = document.getElementById('p-validar-mercadoria');
@@ -21,6 +21,7 @@ const sentenca = document.getElementById('sentenca');
 
 // Variáveis globais e listeners
 var transacoes = [];
+var digitosCampoValor = '';
 
 btnLimparDados.addEventListener('click', limparDados);
 btnSalvarServidor.addEventListener('click', salvarDadosServidor);
@@ -29,6 +30,9 @@ btnSalvarServidorLateral.addEventListener('click', salvarDadosServidor);
 novaTransacao.tipo.addEventListener('change', validarTipo);
 novaTransacao.mercadoria.addEventListener('keyup', validarMercadoria);
 novaTransacao.valor.addEventListener('keyup', validarValor);
+novaTransacao.valor.addEventListener('input', (e) => {
+    e.target.value = mascaraValor(e.data, e.inputType);
+});
 btnAdd.addEventListener('click', adicionarTransacao);
 
 // Functions
@@ -111,11 +115,6 @@ function validarValor() {
         return false;
     }
 }
-// Masks jQuery
-$(document).ready(function() {
-    $("#valor").mask("999.999.999.990,00", {reverse: true});
-});
-// ---
 function adicionarTransacao() {
     const validacaoTipo = validarTipo();
     const validacaoMercadoria = validarMercadoria();
@@ -214,11 +213,60 @@ function salvarDadosServidor() {
 }
 function buscarDadosServidor()  {
     let dados;
-    if ((localStorage.getItem('transacoesNC') != null) &&
-        (localStorage.getItem('transacoesNC') != '')) {
-        dados = JSON.parse(localStorage.getItem('transacoesNC'));
-    } else {
+    const dadosServidor = localStorage.getItem('transacoesNC');
+    if ((dadosServidor === null) ||
+        (dadosServidor === '')) {
         dados = [];
+    } else {
+        dados = JSON.parse(dadosServidor);
     }
     return dados;
+}
+// Máscara valor contábil
+function mascaraValor(digito, tipoDeEntrada) {
+    // Valores válidos
+    const digitosValidos = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    // Valor inverso
+    let digitoValido = false;
+    for (let dig of digitosValidos) {
+        if (dig == digito) {
+            digitoValido = true;
+        }
+    }
+    if ((tipoDeEntrada === 'deleteContentBackward') ||
+        (tipoDeEntrada === 'deleteContentForward')) {
+        // Apaga dígito
+        digitosCampoValor = digitosCampoValor.substr(0, digitosCampoValor.length - 1);
+    }
+    if (digitoValido) {
+        //Insere dígito
+        digitosCampoValor += digito;
+    }
+    // Verificações
+    let valorFormatado = '';
+    if (digitosCampoValor.length <= 2) {
+        valorFormatado = digitosCampoValor;
+        return valorFormatado;
+    }
+    if (digitosCampoValor.length >= 3) {
+        const doisUltimos = digitosCampoValor.substr(-2);
+        const resto = digitosCampoValor.substr(0, digitosCampoValor.length - 2);
+        valorFormatado = resto + ',' + doisUltimos;
+        if (valorFormatado.length >= 7) {
+            const ultimosSeis = valorFormatado.substr(-6);
+            const resto = valorFormatado.substr(0, valorFormatado.length - 6);
+            valorFormatado = resto + '.' + ultimosSeis;
+            if (valorFormatado.length >= 11) {
+                const ultimosDez = valorFormatado.substr(-10);
+                const resto = valorFormatado.substr(0, valorFormatado.length - 10);
+                valorFormatado = resto + '.' + ultimosDez;
+                if (valorFormatado.length >= 15) {
+                    const ultimosQuatorze = valorFormatado.substr(-14);
+                    const resto = valorFormatado.substr(0, valorFormatado.length - 14);
+                    valorFormatado = resto + '.' + ultimosQuatorze;
+                }
+            }
+        }
+        return valorFormatado;
+    }
 }
