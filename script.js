@@ -59,9 +59,11 @@ function validarTipo() {
     const tipoTransacaoAtual = novaTransacao.tipo.value;
     if (tipoTransacaoAtual === "selecione") {
         pValidarTipo.style.display = "block";
+        novaTransacao.tipo.style.border = '1px solid var(--invalid)';
         return false;
     } else {
         pValidarTipo.style.display = "none";
+        novaTransacao.tipo.style.border = '1px solid var(--gray)';
         return true;
     }
 }
@@ -69,9 +71,11 @@ function validarMercadoria() {
     const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
     if (mercadoriaTransacaoAtual === "") {
         pValidarMercadoria.style.display = "block";
+        novaTransacao.mercadoria.style.border = '1px solid var(--invalid)';
         return false;
     } else {
         pValidarMercadoria.style.display = "none";
+        novaTransacao.mercadoria.style.border = '1px solid var(--gray)';
         return true;
     }
 }
@@ -89,8 +93,10 @@ function validarValor() {
     }
     if (pValorVazio.style.display === "none" &&
         pValorIncompleto.style.display === "none") {
+        novaTransacao.valor.style.border = '1px solid var(--gray)';
         return true;
     } else {
+        novaTransacao.valor.style.border = '1px solid var(--invalid)';
         return false;
     }
 }

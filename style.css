@@ -3,6 +3,7 @@
     --background-menu: #e0e0e0;
     --gray: #808080;
     --gray-dark: #333333;
+    --invalid: #ff182b;
 }
 * {
     margin: 0;
@@ -161,7 +162,7 @@ h3 {
     border-radius: 5px;
 }
 .form-nova-transacao .container-input p {
-    color: #ff182b;
+    color: var(--invalid);
     text-align: right;
     display: none;
 }
