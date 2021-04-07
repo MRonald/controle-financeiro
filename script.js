@@ -217,13 +217,15 @@ function mascaraValor(digito, tipoDeEntrada) {
     } else {
         valorFormatado = digitosCampoValor;
     }
-    const doisUltimos = valorFormatado.substr(-2);
-    const resto = valorFormatado.substr(0, valorFormatado.length - 2);
-    valorFormatado = resto + ',' + doisUltimos;
-    if (valorFormatado.length >= 7) {
-        const ultimosSeis = valorFormatado.substr(-6);
-        const resto = valorFormatado.substr(0, valorFormatado.length - 6);
-        valorFormatado = resto + '.' + ultimosSeis;
+    if (valorFormatado.length > 0) {
+        const doisUltimos = valorFormatado.substr(-2);
+        const resto = valorFormatado.substr(0, valorFormatado.length - 2);
+        valorFormatado = resto + ',' + doisUltimos;
+        if (valorFormatado.length >= 7) {
+            const ultimosSeis = valorFormatado.substr(-6);
+            const resto = valorFormatado.substr(0, valorFormatado.length - 6);
+            valorFormatado = resto + '.' + ultimosSeis;
+        }
     }
     return valorFormatado;
 }
