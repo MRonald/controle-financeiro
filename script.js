@@ -196,7 +196,7 @@ function mascaraValor(valorCampo) {
     valorCampo = valorCampo.toString().replace(/\D/g, '');
     valorCampo = parseInt(valorCampo.replace(/[.,]/g, '')).toString();
     let valorFormatado = '';
-    if (valorCampo === '0') {
+    if (valorCampo === '0' || valorCampo === 'NaN') {
         valorFormatado = '';
     } else if (valorCampo.length === 1) {
         valorFormatado += '00' + valorCampo;
