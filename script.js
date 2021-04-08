@@ -22,7 +22,6 @@ const sentenca = document.getElementById('sentenca');
 
 // Variáveis globais e listeners
 var transacoes = [];
-var digitosCampoValor = '';
 
 btnLimparDados.addEventListener('click', limparDados);
 hamburgerIcon.addEventListener('click', abrirMenuLateral);
@@ -33,8 +32,8 @@ novaTransacao.tipo.addEventListener('change', validarTipo);
 novaTransacao.mercadoria.addEventListener('keyup', validarMercadoria);
 novaTransacao.valor.addEventListener('keyup', validarValor);
 novaTransacao.valor.addEventListener('input', (e) => {
-    e.target.value = mascaraValor(e.data, e.inputType);
-})
+    e.target.value = mascaraValor(e.target.value);
+});
 btnAdd.addEventListener('click', adicionarTransacao);
 
 // Functions
@@ -43,52 +42,52 @@ window.onload = () => {
     atualizarExtrato();
 }
 function formatarValorParaUsuario(valor) {
-    return Math.abs(valor).toLocaleString("pt-BR", {
+    return Math.abs(valor).toLocaleString('pt-BR', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
 }
 function formatarValorRealParaMaquina(valor) {
-    return parseFloat(valor.toString().replace(".", "").replace(",", "."));
+    return parseFloat(valor.toString().replace('.', '').replace(',', '.'));
 }
 function validarTipo() {
     const tipoTransacaoAtual = novaTransacao.tipo.value;
-    if (tipoTransacaoAtual === "selecione") {
-        pValidarTipo.style.display = "block";
+    if (tipoTransacaoAtual === 'selecione') {
+        pValidarTipo.style.display = 'block';
         novaTransacao.tipo.style.border = '1px solid var(--invalid)';
         return false;
     } else {
-        pValidarTipo.style.display = "none";
+        pValidarTipo.style.display = 'none';
         novaTransacao.tipo.style.border = '1px solid var(--gray)';
         return true;
     }
 }
 function validarMercadoria() {
     const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
-    if (mercadoriaTransacaoAtual === "") {
-        pValidarMercadoria.style.display = "block";
+    if (mercadoriaTransacaoAtual === '') {
+        pValidarMercadoria.style.display = 'block';
         novaTransacao.mercadoria.style.border = '1px solid var(--invalid)';
         return false;
     } else {
-        pValidarMercadoria.style.display = "none";
+        pValidarMercadoria.style.display = 'none';
         novaTransacao.mercadoria.style.border = '1px solid var(--gray)';
         return true;
     }
 }
 function validarValor() {
     const valorTransacaoAtual = novaTransacao.valor.value.toString();
-    if (valorTransacaoAtual === "") {
-        pValorVazio.style.display = "block";
+    if (valorTransacaoAtual === '') {
+        pValorVazio.style.display = 'block';
     } else {
-        pValorVazio.style.display = "none";
+        pValorVazio.style.display = 'none';
     }
     if (valorTransacaoAtual.length > 0 && valorTransacaoAtual.length < 4) {
-        pValorIncompleto.style.display = "block";
+        pValorIncompleto.style.display = 'block';
     } else {
-        pValorIncompleto.style.display = "none";
+        pValorIncompleto.style.display = 'none';
     }
-    if (pValorVazio.style.display === "none" &&
-        pValorIncompleto.style.display === "none") {
+    if (pValorVazio.style.display === 'none' &&
+        pValorIncompleto.style.display === 'none') {
         novaTransacao.valor.style.border = '1px solid var(--gray)';
         return true;
     } else {
@@ -103,7 +102,7 @@ function adicionarTransacao() {
     if (validacaoTipo && validacaoMercadoria && validacaoValor) {
         const tipoTransacaoAtual = novaTransacao.tipo.value;
         const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
-        const valorTransacaoAtual = (tipoTransacaoAtual === "venda")
+        const valorTransacaoAtual = (tipoTransacaoAtual === 'venda')
             ? formatarValorRealParaMaquina(novaTransacao.valor.value)
             : 0 - formatarValorRealParaMaquina(novaTransacao.valor.value);
         transacoes.push({
@@ -115,7 +114,6 @@ function adicionarTransacao() {
         atualizarExtrato();
         calcularTotal();
         limparCampos();
-        digitosCampoValor = '';
     }
 }
 function limparDados() {
@@ -125,10 +123,10 @@ function limparDados() {
 }
 function criarLineTransacao(transacao) {
     const novaLinha = document.createElement('div');
-    novaLinha.classList.add("line");
+    novaLinha.classList.add('line');
     novaLinha.innerHTML = `
-        <div class="transacao">
-            <span class="sinal">${transacao.tipo === "venda" ? "+" : "-"}</span>
+        <div class='transacao'>
+            <span class='sinal'>${transacao.tipo === 'venda' ? '+' : '-'}</span>
             <span>${transacao.mercadoria}</span>
         </div>
         <span>R$ ${formatarValorParaUsuario(transacao.valor)}</span>
@@ -137,9 +135,9 @@ function criarLineTransacao(transacao) {
 }
 function atualizarExtrato() {
     if (transacoes.length != 0) {
-        if ((novaTransacao.tipo.value === "selecione") &&
-            (novaTransacao.mercadoria.value === "") &&
-            (novaTransacao.valor.value === "")) {
+        if ((novaTransacao.tipo.value === 'selecione') &&
+            (novaTransacao.mercadoria.value === '') &&
+            (novaTransacao.valor.value === '')) {
             for (let transacao of transacoes) {
                 criarLineTransacao(transacao);
             }
@@ -150,23 +148,23 @@ function atualizarExtrato() {
         semTransacoes.style.display = 'none';
         tabelaTransacoes.style.display = 'block';
     } else {
-        containerLinhasTrasacoes.innerHTML = "";
+        containerLinhasTrasacoes.innerHTML = '';
         semTransacoes.style.display = 'block';
         tabelaTransacoes.style.display = 'none';
     }
 }
 function limparCampos() {
-    novaTransacao.tipo.value = "selecione";
-    novaTransacao.mercadoria.value = "";
-    novaTransacao.valor.value = "";
+    novaTransacao.tipo.value = 'selecione';
+    novaTransacao.mercadoria.value = '';
+    novaTransacao.valor.value = '';
 }
 function calcularTotal() {
     let total = 0;
     for (transacao of transacoes) {
         total += transacao.valor;
     }
-    resultadoTotal.innerText = "R$ " + formatarValorParaUsuario(total);
-    sentenca.innerText = (total >= 0) ? "[LUCRO]" : "[PREJUÍZO]";
+    resultadoTotal.innerText = 'R$ ' + formatarValorParaUsuario(total);
+    sentenca.innerText = (total >= 0) ? '[LUCRO]' : '[PREJUÍZO]';
 }
 function salvarDadosLocalStorage() {
     if (transacoes.length === 0) {
@@ -194,28 +192,18 @@ function fecharMenuLateral() {
     bgMenuLateral.classList.add('esconder');
 }
 // Máscara valor contábil
-function mascaraValor(digito, tipoDeEntrada) {
-    const digitosValidos = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    let digitoValido = false;
-    for (let dig of digitosValidos) {
-        if (dig == digito) {
-            digitoValido = true;
-        }
-    }
-    if ((tipoDeEntrada === 'deleteContentBackward') ||
-        (tipoDeEntrada === 'deleteContentForward')) {
-        digitosCampoValor = digitosCampoValor.substr(0, digitosCampoValor.length - 1);
-    }
-    if (digitoValido) {
-        digitosCampoValor += digito;
-    }
+function mascaraValor(valorCampo) {
+    valorCampo = valorCampo.toString().replace(/\D/g, '');
+    valorCampo = parseInt(valorCampo.replace(/[.,]/g, '')).toString();
     let valorFormatado = '';
-    if (digitosCampoValor.length === 1) {
-        valorFormatado += '00' + digitosCampoValor;
-    } else if (digitosCampoValor.length === 2) {
-        valorFormatado += '0' + digitosCampoValor;
+    if (valorCampo === '0') {
+        valorFormatado = '';
+    } else if (valorCampo.length === 1) {
+        valorFormatado += '00' + valorCampo;
+    } else if (valorCampo.length === 2) {
+        valorFormatado += '0' + valorCampo;
     } else {
-        valorFormatado = digitosCampoValor;
+        valorFormatado = valorCampo;
     }
     if (valorFormatado.length > 0) {
         const doisUltimos = valorFormatado.substr(-2);
