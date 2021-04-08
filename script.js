@@ -75,7 +75,7 @@ function validarMercadoria() {
     }
 }
 function validarValor() {
-    const valorTransacaoAtual = novaTransacao.valor.value.toString();
+    const valorTransacaoAtual = novaTransacao.valor.value.toString().substr(3);
     if (valorTransacaoAtual === '') {
         pValorVazio.style.display = 'block';
     } else {
@@ -103,8 +103,8 @@ function adicionarTransacao() {
         const tipoTransacaoAtual = novaTransacao.tipo.value;
         const mercadoriaTransacaoAtual = novaTransacao.mercadoria.value;
         const valorTransacaoAtual = (tipoTransacaoAtual === 'venda')
-            ? formatarValorRealParaMaquina(novaTransacao.valor.value)
-            : 0 - formatarValorRealParaMaquina(novaTransacao.valor.value);
+            ? formatarValorRealParaMaquina(novaTransacao.valor.value.substr(3))
+            : 0 - formatarValorRealParaMaquina(novaTransacao.valor.value.substr(3));
         transacoes.push({
             tipo: tipoTransacaoAtual,
             mercadoria: mercadoriaTransacaoAtual,
@@ -214,6 +214,7 @@ function mascaraValor(valorCampo) {
             const resto = valorFormatado.substr(0, valorFormatado.length - 6);
             valorFormatado = resto + '.' + ultimosSeis;
         }
+        valorFormatado = 'R$ ' + valorFormatado;
     }
     return valorFormatado;
 }
