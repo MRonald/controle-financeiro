@@ -15,7 +15,6 @@ const novaTransacao = {
 const pValidarTipo = document.getElementById('p-validar-tipo');
 const pValidarMercadoria = document.getElementById('p-validar-mercadoria');
 const pValorVazio = document.getElementById('p-valor-vazio');
-const pValorIncompleto = document.getElementById('p-valor-incompleto');
 const btnAdd = document.getElementById('btn-add');
 const resultadoTotal = document.getElementById('resultado-total');
 const sentenca = document.getElementById('sentenca');
@@ -78,21 +77,12 @@ function validarValor() {
     const valorTransacaoAtual = novaTransacao.valor.value.toString().substr(3);
     if (valorTransacaoAtual === '') {
         pValorVazio.style.display = 'block';
-    } else {
-        pValorVazio.style.display = 'none';
-    }
-    if (valorTransacaoAtual.length > 0 && valorTransacaoAtual.length < 4) {
-        pValorIncompleto.style.display = 'block';
-    } else {
-        pValorIncompleto.style.display = 'none';
-    }
-    if (pValorVazio.style.display === 'none' &&
-        pValorIncompleto.style.display === 'none') {
-        novaTransacao.valor.style.border = '1px solid var(--gray)';
-        return true;
-    } else {
         novaTransacao.valor.style.border = '1px solid var(--invalid)';
         return false;
+    } else {
+        pValorVazio.style.display = 'none';
+        novaTransacao.valor.style.border = '1px solid var(--gray)';
+        return true;
     }
 }
 function adicionarTransacao() {
@@ -193,8 +183,7 @@ function fecharMenuLateral() {
 }
 // Máscara valor contábil
 function mascaraValor(valorCampo) {
-    valorCampo = valorCampo.toString().replace(/\D/g, '');
-    valorCampo = parseInt(valorCampo.replace(/[.,]/g, '')).toString();
+    valorCampo = parseInt(valorCampo.replace(/\D/g, '')).toString();
     let valorFormatado = '';
     if (valorCampo === '0' || valorCampo === 'NaN') {
         valorFormatado = '';
