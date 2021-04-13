@@ -16,11 +16,18 @@ const pValidarTipo = document.getElementById('p-validar-tipo');
 const pValidarMercadoria = document.getElementById('p-validar-mercadoria');
 const pValorVazio = document.getElementById('p-valor-vazio');
 const btnAdd = document.getElementById('btn-add');
+const paginacao = document.getElementById('paginacao');
+const setaEsquerdaPaginacao = document.getElementById('seta-esquerda');
+const setaDireitaPaginacao = document.getElementById('seta-direita');
+const spanPaginaAtual = document.getElementById('pag-atual');
+const spanTotalPaginas = document.getElementById('total-pag');
 const resultadoTotal = document.getElementById('resultado-total');
 const sentenca = document.getElementById('sentenca');
 
 // Variáveis globais e listeners
 var transacoes = [];
+var paginaAtual = 1;
+var primeiroAcesso = true;
 
 btnLimparDados.addEventListener('click', limparDados);
 hamburgerIcon.addEventListener('click', abrirMenuLateral);
@@ -34,6 +41,8 @@ novaTransacao.valor.addEventListener('input', (e) => {
     e.target.value = mascaraValor(e.target.value);
 });
 btnAdd.addEventListener('click', adicionarTransacao);
+setaEsquerdaPaginacao.addEventListener('click', paginacaoAnterior);
+setaDireitaPaginacao.addEventListener('click', paginacaoProxima);
 
 // Functions
 window.onload = () => {
@@ -103,7 +112,7 @@ function adicionarTransacao() {
         salvarDadosLocalStorage();
         atualizarExtrato();
         calcularTotal();
-        limparCampos();
+        //limparCampos();
     }
 }
 function limparDados() {
@@ -123,25 +132,91 @@ function criarLineTransacao(transacao) {
     `;
     containerLinhasTrasacoes.append(novaLinha);
 }
-function atualizarExtrato() {
+function limparContainerTransacoes() {
+    containerLinhasTrasacoes.innerHTML = '';
+}
+function adicionarItensPaginacao(inicio, fim) {
+    for (let i = inicio; i < fim; i++) {
+        criarLineTransacao(transacoes[i]);
+    }
+}
+function atualizarExtrato(mudaPagina = false) {
     if (transacoes.length != 0) {
-        if ((novaTransacao.tipo.value === 'selecione') &&
-            (novaTransacao.mercadoria.value === '') &&
-            (novaTransacao.valor.value === '')) {
-            for (let transacao of transacoes) {
-                criarLineTransacao(transacao);
+        const sobraPaginacao = transacoes.length % 10;
+        if (primeiroAcesso) {
+            // inicializando o extrato
+            if (transacoes.length <= 10) {
+                adicionarItensPaginacao(0, transacoes.length);
+            } else if (sobraPaginacao === 0) {
+                adicionarItensPaginacao(transacoes.length - 10, transacoes.length);
+            } else {
+                adicionarItensPaginacao(transacoes.length - sobraPaginacao, transacoes.length);
             }
-        } else {
+            atualizarPaginacao();
+        } else if (!mudaPagina) {
+            // Adicionando a última transação
+            if (sobraPaginacao === 1 && transacoes.length > 1) {
+                // Criando uma nova página caso o limite seja ultrapassado
+                criarNovaPagina();
+                limparContainerTransacoes();
+            } 
             const ultimaTransacao = transacoes[transacoes.length - 1];
             criarLineTransacao(ultimaTransacao);
+        } else if (mudaPagina) {
+            // Caso a página atual seja mudada
+            const totalPaginas = parseInt(spanTotalPaginas.innerText);
+            limparContainerTransacoes();
+            if (paginaAtual !== totalPaginas) {
+                const itemInicial = (paginaAtual * 10) - 9;
+                adicionarItensPaginacao(itemInicial, itemInicial + 10);
+            } else {
+                adicionarItensPaginacao(transacoes.length - sobraPaginacao, transacoes.length);
+            }
         }
         semTransacoes.style.display = 'none';
         tabelaTransacoes.style.display = 'block';
     } else {
+        atualizarPaginacao();
         containerLinhasTrasacoes.innerHTML = '';
         semTransacoes.style.display = 'block';
         tabelaTransacoes.style.display = 'none';
     }
+}
+function atualizarPaginacao() {
+    const quantPaginas = transacoes.length / 10;
+    if (quantPaginas > 1) {
+        paginacao.style.display = 'flex';
+        spanTotalPaginas.innerText = Math.ceil(quantPaginas);
+        spanPaginaAtual.innerText = paginaAtual;
+    } else {
+        paginacao.style.display = 'none';
+        paginaAtual = 1;
+    }
+    if (primeiroAcesso) {
+        spanPaginaAtual.innerText = Math.ceil(quantPaginas);
+        paginaAtual = Math.ceil(quantPaginas);
+        primeiroAcesso = false;
+    }
+}
+function paginacaoAnterior() {
+    if (paginaAtual > 1) {
+        paginaAtual--;
+        atualizarPaginacao();
+        atualizarExtrato(true);
+    }
+}
+function paginacaoProxima() {
+    const quantPaginas = parseInt(spanTotalPaginas.innerText);
+    if (paginaAtual < quantPaginas) {
+        paginaAtual++;
+        atualizarPaginacao();
+        atualizarExtrato(true);
+    }
+}
+function criarNovaPagina() {
+    paginaAtual++;
+    atualizarPaginacao();
+    atualizarExtrato(true);
 }
 function limparCampos() {
     novaTransacao.tipo.value = 'selecione';
@@ -176,7 +251,6 @@ function buscarDadosLocalStorage()  {
 // Mostrar e exibir menu lateral responsivo
 function abrirMenuLateral() {
     bgMenuLateral.classList.remove('esconder');
-
 }
 function fecharMenuLateral() {
     bgMenuLateral.classList.add('esconder');

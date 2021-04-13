@@ -223,6 +223,19 @@ h3 {
     justify-content: space-between;
     max-width: 65%;
 }
+.extrato .paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px auto;
+}
+.extrato .paginacao img {
+    margin: auto 7px;
+    cursor: pointer;
+}
+.extrato .paginacao span {
+    font-weight: bold;
+}
 .extrato .resumo-transacoes {
     display: flex;
     justify-content: space-between;
