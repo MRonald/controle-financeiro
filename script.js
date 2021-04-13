@@ -140,7 +140,7 @@ function adicionarItensPaginacao(inicio, fim) {
         criarLineTransacao(transacoes[i]);
     }
 }
-function atualizarExtrato(mudaPagina = false) {
+function atualizarExtrato(navegarPaginacao = false) {
     if (transacoes.length != 0) {
         const sobraPaginacao = transacoes.length % 10;
         if (primeiroAcesso) {
@@ -153,22 +153,37 @@ function atualizarExtrato(mudaPagina = false) {
                 adicionarItensPaginacao(transacoes.length - sobraPaginacao, transacoes.length);
             }
             atualizarPaginacao();
-        } else if (!mudaPagina) {
-            // Adicionando a última transação
-            if (sobraPaginacao === 1 && transacoes.length > 1) {
-                // Criando uma nova página caso o limite seja ultrapassado
+        } else if (!navegarPaginacao) {
+            function adicionarUltimaTransacao() {
+                const ultimaTransacao = transacoes[transacoes.length - 1];
+                criarLineTransacao(ultimaTransacao);
+            }
+            // Devo estar na última página para inserir uma transação
+            const ultimaPagina = parseInt(spanTotalPaginas.innerHTML);
+            let isUltimaPagina = paginaAtual === ultimaPagina;
+            if (isUltimaPagina && sobraPaginacao === 1 && transacoes.length > 1) {
                 criarNovaPagina();
                 limparContainerTransacoes();
-            } 
-            const ultimaTransacao = transacoes[transacoes.length - 1];
-            criarLineTransacao(ultimaTransacao);
-        } else if (mudaPagina) {
+                adicionarUltimaTransacao();
+            } else if (!isUltimaPagina && sobraPaginacao === 1 && transacoes.length > 1) {
+                irParaUltimaPagina();
+                criarNovaPagina();
+                limparContainerTransacoes();
+                adicionarUltimaTransacao();
+            } else if (isUltimaPagina) {
+                adicionarUltimaTransacao();
+            } else if (!isUltimaPagina) {
+                irParaUltimaPagina();
+            }
+        } else if (navegarPaginacao) {
             // Caso a página atual seja mudada
             const totalPaginas = parseInt(spanTotalPaginas.innerText);
             limparContainerTransacoes();
             if (paginaAtual !== totalPaginas) {
                 const itemInicial = (paginaAtual * 10) - 9;
                 adicionarItensPaginacao(itemInicial, itemInicial + 10);
+            } else if (sobraPaginacao === 0) {
+                adicionarItensPaginacao(transacoes.length - 10, transacoes.length);
             } else {
                 adicionarItensPaginacao(transacoes.length - sobraPaginacao, transacoes.length);
             }
@@ -191,6 +206,7 @@ function atualizarPaginacao() {
     } else {
         paginacao.style.display = 'none';
         paginaAtual = 1;
+        spanTotalPaginas.innerText = '1';
     }
     if (primeiroAcesso) {
         spanPaginaAtual.innerText = Math.ceil(quantPaginas);
@@ -212,6 +228,12 @@ function paginacaoProxima() {
         atualizarPaginacao();
         atualizarExtrato(true);
     }
+}
+function irParaUltimaPagina() {
+    const ultimaPagina = parseInt(spanTotalPaginas.innerText);
+    paginaAtual = ultimaPagina;
+    atualizarPaginacao();
+    atualizarExtrato(true);
 }
 function criarNovaPagina() {
     paginaAtual++;
