@@ -1,9 +1,11 @@
 // Elementos do DOM
 const btnLimparDados = document.getElementById('limpar-dados');
+const btnSalvarServidor = document.getElementById('salvar-servidor');
 const hamburgerIcon = document.getElementById('hamburguer-icon');
 const bgMenuLateral = document.getElementById('bg-menu-lateral');
 const iconeFecharMenuLateral = document.getElementById('icone-fechar');
 const btnLimparDadosLateral = document.getElementById('limpar-dados-lateral');
+const btnSalvarServidorLateral = document.getElementById('salvar-servidor-lateral');
 const tabelaTransacoes = document.getElementById('lista-transacoes');
 const semTransacoes = document.getElementById('sem-transacoes');
 const containerLinhasTrasacoes = document.getElementById('container-transacoes');
@@ -25,15 +27,18 @@ const resultadoTotal = document.getElementById('resultado-total');
 const sentenca = document.getElementById('sentenca');
 
 // Variáveis globais e listeners
-var transacoes = [];
+var transacoes;
+var dadosServidor;
 var paginaAtual = 1;
 var primeiroAcesso = true;
 
 btnLimparDados.addEventListener('click', limparDados);
+btnSalvarServidor.addEventListener('click', salvarDadosServidor);
 hamburgerIcon.addEventListener('click', abrirMenuLateral);
 bgMenuLateral.addEventListener('click', fecharMenuLateral);
 iconeFecharMenuLateral.addEventListener('click', fecharMenuLateral);
 btnLimparDadosLateral.addEventListener('click', limparDados);
+btnSalvarServidorLateral.addEventListener('click', salvarDadosServidor);
 novaTransacao.tipo.addEventListener('change', validarTipo);
 novaTransacao.mercadoria.addEventListener('keyup', validarMercadoria);
 novaTransacao.valor.addEventListener('keyup', validarValor);
@@ -111,8 +116,7 @@ function adicionarTransacao() {
         });
         salvarDadosLocalStorage();
         atualizarExtrato();
-        calcularTotal();
-        //limparCampos();
+        limparCampos();
     }
 }
 function limparDados() {
@@ -188,6 +192,7 @@ function atualizarExtrato(navegarPaginacao = false) {
                 adicionarItensPaginacao(transacoes.length - sobraPaginacao, transacoes.length);
             }
         }
+        calcularTotal();
         semTransacoes.style.display = 'none';
         tabelaTransacoes.style.display = 'block';
     } else {
@@ -269,6 +274,29 @@ function buscarDadosLocalStorage()  {
         dados = [];
     }
     return dados;
+}
+function salvarDadosServidor() {
+    const corpoRequisicao = `
+    {
+        "records": [
+            {
+                "id": "reckDQ6hmpeCC9Squ",
+                "fields": {
+                    "Aluno": "1452",
+                    "Json": "${JSON.stringify(transacoes).replace(/["]/g, "'")}"
+                }
+            }
+        ]
+    }
+    `;
+    fetch('https://api.airtable.com/v0/appRNtYLglpPhv2QD/Historico', {
+        method: 'PATCH',
+        headers: {
+            Authorization: 'Bearer key2CwkHb0CKumjuM',
+            'Content-Type': 'application/json'
+        },
+        body: corpoRequisicao
+    }).catch(e => console.error('Não consegui fazer a atualização dos dados --> ' + e));
 }
 // Mostrar e exibir menu lateral responsivo
 function abrirMenuLateral() {
