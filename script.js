@@ -120,9 +120,13 @@ function adicionarTransacao() {
     }
 }
 function limparDados() {
-    transacoes = [];
-    salvarDadosLocalStorage();
-    atualizarExtrato();
+    const confirmacao = confirm(`ATENÇÃO!\nEssa ação irá apagar todos os dados de transações no cache local mas as informações continuarão no servidor.\nDeseja continuar?
+    `);
+    if (confirmacao) {
+        transacoes = [];
+        salvarDadosLocalStorage();
+        atualizarExtrato();
+    }
 }
 function criarLineTransacao(transacao) {
     const novaLinha = document.createElement('div');
