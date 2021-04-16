@@ -193,12 +193,17 @@ h3 {
     width: 55%;
     min-width: 300px;
 }
+.extrato .loading {
+    width: 50px;
+    margin: 25px auto;
+}
 .extrato #lista-transacoes {
     display: none;
 }
 .extrato p#sem-transacoes {
     text-align: center;
     margin-top: 40px;
+    display: none;
 }
 .extrato .descricao {
     display: flex;

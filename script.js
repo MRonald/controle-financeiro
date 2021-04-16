@@ -6,6 +6,7 @@ const bgMenuLateral = document.getElementById('bg-menu-lateral');
 const iconeFecharMenuLateral = document.getElementById('icone-fechar');
 const btnLimparDadosLateral = document.getElementById('limpar-dados-lateral');
 const btnSalvarServidorLateral = document.getElementById('salvar-servidor-lateral');
+const imgLoading = document.getElementById('loading');
 const tabelaTransacoes = document.getElementById('lista-transacoes');
 const semTransacoes = document.getElementById('sem-transacoes');
 const containerLinhasTrasacoes = document.getElementById('container-transacoes');
@@ -51,8 +52,23 @@ setaDireitaPaginacao.addEventListener('click', paginacaoProxima);
 
 // Functions
 window.onload = () => {
-    transacoes = buscarDadosLocalStorage();
-    atualizarExtrato();
+    if (sessionStorage.getItem('sessionActive') === null) {
+        toogleLoading();
+        buscarDadosServidor();
+    } else {
+        buscarDadosLocalStorage();
+        atualizarExtrato();
+    }
+}
+function toogleLoading() {
+    const indiceEsconder = imgLoading.classList.toString().indexOf('esconder');
+    if (indiceEsconder === -1) {
+        imgLoading.classList.add('esconder');
+        imgLoading.nextElementSibling.style.display = 'block';
+    } else {
+        imgLoading.classList.remove('esconder');
+        imgLoading.nextElementSibling.style.display = 'none';
+    }
 }
 function formatarValorParaUsuario(valor) {
     return Math.abs(valor).toLocaleString('pt-BR', {
@@ -270,14 +286,12 @@ function salvarDadosLocalStorage() {
     }
 }
 function buscarDadosLocalStorage()  {
-    let dados;
     if ((localStorage.getItem('transacoesNC') != null) &&
         (localStorage.getItem('transacoesNC') != '')) {
-        dados = JSON.parse(localStorage.getItem('transacoesNC'));
+        transacoes = JSON.parse(localStorage.getItem('transacoesNC'));
     } else {
-        dados = [];
+        transacoes = [];
     }
-    return dados;
 }
 function salvarDadosServidor() {
     const corpoRequisicao = `
@@ -301,6 +315,22 @@ function salvarDadosServidor() {
         },
         body: corpoRequisicao
     }).catch(e => console.error('Não consegui fazer a atualização dos dados --> ' + e));
+}
+function buscarDadosServidor() {
+    fetch('https://api.airtable.com/v0/appRNtYLglpPhv2QD/Historico/reckDQ6hmpeCC9Squ', {
+        headers: {
+            Authorization: 'Bearer key2CwkHb0CKumjuM'
+        }
+    }).then(
+        response => response.json()
+    ).then(responseJson => {
+        const dados = responseJson.fields.Json.replace(/'/g, '"');
+        transacoes = JSON.parse(dados);
+        salvarDadosLocalStorage();
+        atualizarExtrato();
+        sessionStorage.setItem('sessionActive', 'true');
+        toogleLoading();
+    });
 }
 // Mostrar e exibir menu lateral responsivo
 function abrirMenuLateral() {

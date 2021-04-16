@@ -72,26 +72,29 @@
         </div>
         <div class="extrato">
             <h2>Extrato de transações</h2>
-            <div id="lista-transacoes">
-                <div class="descricao">
-                    <h3>Mercadoria</h3>
-                    <h3>Valor</h3>
-                </div>
-                <div id="container-transacoes"></div>
-                <div class='paginacao' id="paginacao">
-                    <img src="imgs/arrow-left.png" alt="Seta esquerda" id="seta-esquerda"/>
-                    <p>Página <span id="pag-atual">1</span> de <span id="total-pag">10</span></p>
-                    <img src="imgs/arrow-right.png" alt="Seta direita" id="seta-direita"/>
-                </div>
-                <div class="resumo-transacoes">
-                    <strong>Total</strong>
-                    <div class="resultado">
-                        <strong id="resultado-total"></strong>
-                        <span id="sentenca"></span>
+            <img src="imgs/loading.gif" alt="loading" class="loading esconder" id="loading"/>
+            <div>
+                <div id="lista-transacoes">
+                    <div class="descricao">
+                        <h3>Mercadoria</h3>
+                        <h3>Valor</h3>
+                    </div>
+                    <div id="container-transacoes"></div>
+                    <div class='paginacao' id="paginacao">
+                        <img src="imgs/arrow-left.png" alt="Seta esquerda" id="seta-esquerda"/>
+                        <p>Página <span id="pag-atual">1</span> de <span id="total-pag">10</span></p>
+                        <img src="imgs/arrow-right.png" alt="Seta direita" id="seta-direita"/>
+                    </div>
+                    <div class="resumo-transacoes">
+                        <strong>Total</strong>
+                        <div class="resultado">
+                            <strong id="resultado-total"></strong>
+                            <span id="sentenca"></span>
+                        </div>
                     </div>
                 </div>
+                <p id="sem-transacoes">Não há transações cadastradas</p>
             </div>
-            <p id="sem-transacoes">Não há transações cadastradas</p>
         </div>
     </section>
 </body>
