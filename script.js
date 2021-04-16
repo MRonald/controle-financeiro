@@ -29,7 +29,6 @@ const sentenca = document.getElementById('sentenca');
 
 // Variáveis globais e listeners
 var transacoes;
-var dadosServidor;
 var paginaAtual = 1;
 var primeiroAcesso = true;
 
