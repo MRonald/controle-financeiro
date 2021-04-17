@@ -1,4 +1,5 @@
 // Elementos do DOM
+const favicon = document.getElementById('favicon');
 const btnLimparDados = document.getElementById('limpar-dados');
 const btnSalvarServidor = document.getElementById('salvar-servidor');
 const hamburgerIcon = document.getElementById('hamburguer-icon');
@@ -6,6 +7,8 @@ const bgMenuLateral = document.getElementById('bg-menu-lateral');
 const iconeFecharMenuLateral = document.getElementById('icone-fechar');
 const btnLimparDadosLateral = document.getElementById('limpar-dados-lateral');
 const btnSalvarServidorLateral = document.getElementById('salvar-servidor-lateral');
+const imgExclamacao = document.getElementById('exclamacao');
+const caixaMsg = document.getElementById('caixa-msg');
 const imgLoading = document.getElementById('loading');
 const tabelaTransacoes = document.getElementById('lista-transacoes');
 const semTransacoes = document.getElementById('sem-transacoes');
@@ -31,6 +34,7 @@ const sentenca = document.getElementById('sentenca');
 var transacoes;
 var paginaAtual = 1;
 var primeiroAcesso = true;
+var dadosServidor;
 
 btnLimparDados.addEventListener('click', limparDados);
 btnSalvarServidor.addEventListener('click', salvarDadosServidor);
@@ -46,8 +50,15 @@ novaTransacao.valor.addEventListener('input', (e) => {
     e.target.value = mascaraValor(e.target.value);
 });
 btnAdd.addEventListener('click', adicionarTransacao);
+if (window.innerWidth > 800) {
+    imgExclamacao.addEventListener('mouseenter', mostrarMsgSalvarServidor);
+    imgExclamacao.addEventListener('mouseout', esconderMsgSalvarServidor);
+} else {
+    imgExclamacao.addEventListener('click', toogleMsgSalvarServidor);
+}
 setaEsquerdaPaginacao.addEventListener('click', paginacaoAnterior);
 setaDireitaPaginacao.addEventListener('click', paginacaoProxima);
+document.addEventListener('click', compararDadosServidor);
 
 // Functions
 window.onload = () => {
@@ -55,13 +66,28 @@ window.onload = () => {
         toogleLoading();
         buscarDadosServidor();
     } else {
-        buscarDadosLocalStorage();
+        transacoes = buscarDadosLocalStorage();
         atualizarExtrato();
+        compararDadosServidor();
+    }
+}
+function mostrarMsgSalvarServidor() {
+    caixaMsg.classList.remove('esconder');
+}
+function esconderMsgSalvarServidor() {
+    caixaMsg.classList.add('esconder');
+}
+function toogleMsgSalvarServidor() {
+    const contemClassEsconder = caixaMsg.classList.contains('esconder');
+    if (contemClassEsconder) {
+        mostrarMsgSalvarServidor();
+    } else {
+        esconderMsgSalvarServidor();
     }
 }
 function toogleLoading() {
-    const indiceEsconder = imgLoading.classList.toString().indexOf('esconder');
-    if (indiceEsconder === -1) {
+    const indiceClassEsconder = imgLoading.classList.toString().indexOf('esconder');
+    if (indiceClassEsconder === -1) {
         imgLoading.classList.add('esconder');
         imgLoading.nextElementSibling.style.display = 'block';
     } else {
@@ -285,12 +311,14 @@ function salvarDadosLocalStorage() {
     }
 }
 function buscarDadosLocalStorage()  {
+    let dados;
     if ((localStorage.getItem('transacoesNC') != null) &&
         (localStorage.getItem('transacoesNC') != '')) {
-        transacoes = JSON.parse(localStorage.getItem('transacoesNC'));
+        dados = JSON.parse(localStorage.getItem('transacoesNC'));
     } else {
-        transacoes = [];
+        dados = [];
     }
+    return dados;
 }
 function salvarDadosServidor() {
     const corpoRequisicao = `
@@ -313,7 +341,11 @@ function salvarDadosServidor() {
             'Content-Type': 'application/json'
         },
         body: corpoRequisicao
-    }).catch(e => console.error('Não consegui fazer a atualização dos dados --> ' + e));
+    }).then(() => {
+        dadosServidor = JSON.stringify(buscarDadosLocalStorage());
+        compararDadosServidor()
+
+    }).catch(e => alert('ERRO!\nSeus dados não foram salvos. Verifique sua rede e tente novamente.'));
 }
 function buscarDadosServidor() {
     fetch('https://api.airtable.com/v0/appRNtYLglpPhv2QD/Historico/reckDQ6hmpeCC9Squ', {
@@ -327,9 +359,27 @@ function buscarDadosServidor() {
         transacoes = JSON.parse(dados);
         salvarDadosLocalStorage();
         atualizarExtrato();
+        dadosServidor = JSON.stringify(buscarDadosLocalStorage());
         sessionStorage.setItem('sessionActive', 'true');
         toogleLoading();
+    }).catch(() => {
+        alert('ERRO!\nNão conseguimos buscar seus dados do servidor. Os dados mostrados são os salvos no cache local.\nPara buscar novamente, verifique sua rede e atualize a página.');
+        transacoes = buscarDadosLocalStorage();
+        atualizarExtrato();
+        toogleLoading();
     });
+}
+function compararDadosServidor() {
+    const dadosLocalStorage = JSON.stringify(buscarDadosLocalStorage());
+    if (dadosServidor === dadosLocalStorage) {
+        imgExclamacao.classList.add('esconder');
+        document.title = 'Controle Financeiro';
+        favicon.href = 'imgs/logo.png';
+    } else {
+        imgExclamacao.classList.remove('esconder');
+        document.title = 'Dados não salvos | Controle Financeiro';
+        favicon.href = 'imgs/exclamation-circle.png';
+    }
 }
 // Mostrar e exibir menu lateral responsivo
 function abrirMenuLateral() {

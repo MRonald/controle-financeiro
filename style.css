@@ -193,6 +193,23 @@ h3 {
     width: 55%;
     min-width: 300px;
 }
+.extrato .exclamacao {
+    width: 25px;
+}
+.extrato .caixa-msg {
+    position: absolute;
+    right: calc(100vw - 67%);
+    transform: translateX(50%);
+    background-color: rgb(255, 148, 148);
+    max-width: 300px;
+    min-width: 300px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #660B12;
+    font-weight: normal;
+    font-size: 1rem;
+}
 .extrato .loading {
     width: 50px;
     margin: 25px auto;
@@ -262,6 +279,9 @@ h3 {
     .conteudo {
         width: 95%;
     }
+    .extrato .caixa-msg {
+        right: calc(100vw - 70%);
+    }
 }
 @media (max-width: 800px) {
     .conteudo {
@@ -299,6 +319,9 @@ h3 {
     }
     .extrato {
         margin-top: 40px;
+    }
+    .extrato .caixa-msg {
+        right: calc(100vw - 50%);
     }
 }
 @media (max-width: 559px) {

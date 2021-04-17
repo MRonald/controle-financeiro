@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="favicon" rel="shortcut icon" type="image/png" href="imgs/logo.png"/>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <script src="script.js" defer></script>
@@ -42,7 +43,7 @@
             </nav>
         </div>
     </div>
-    <section class="conteudo">
+    <main class="conteudo">
         <div class="form-nova-transacao">
             <h2>Nova transação</h2>
             <div class="containers-wrapper">
@@ -71,7 +72,14 @@
             </div>
         </div>
         <div class="extrato">
-            <h2>Extrato de transações</h2>
+            <h2>
+                Extrato de transações
+                <img src="imgs/exclamation-circle.png" alt="Exclamação" class="exclamacao esconder" id="exclamacao"/>
+                <div class="caixa-msg esconder" id="caixa-msg">
+                    Existem alterações que não foram salvas no servidor. Antes de sair da página,
+                    salve as informações clicando no botão 'Salvar no Servidor'.
+                </div>
+            </h2>
             <img src="imgs/loading.gif" alt="loading" class="loading esconder" id="loading"/>
             <div>
                 <div id="lista-transacoes">
@@ -96,6 +104,6 @@
                 <p id="sem-transacoes">Não há transações cadastradas</p>
             </div>
         </div>
-    </section>
+    </main>
 </body>
 </html>
