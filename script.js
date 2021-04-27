@@ -34,7 +34,6 @@ const sentenca = document.getElementById('sentenca');
 var transacoes;
 var paginaAtual = 1;
 var primeiroAcesso = true;
-var dadosServidor;
 
 btnLimparDados.addEventListener('click', limparDados);
 btnSalvarServidor.addEventListener('click', salvarDadosServidor);
@@ -54,7 +53,7 @@ if (window.innerWidth > 800) {
     imgExclamacao.addEventListener('mouseenter', mostrarMsgSalvarServidor);
     imgExclamacao.addEventListener('mouseout', esconderMsgSalvarServidor);
 } else {
-    imgExclamacao.addEventListener('click', toogleMsgSalvarServidor);
+    imgExclamacao.addEventListener('click', toggleMsgSalvarServidor);
 }
 setaEsquerdaPaginacao.addEventListener('click', paginacaoAnterior);
 setaDireitaPaginacao.addEventListener('click', paginacaoProxima);
@@ -63,7 +62,7 @@ document.addEventListener('click', compararDadosServidor);
 // Functions
 window.onload = () => {
     if (sessionStorage.getItem('sessionActive') === null) {
-        toogleLoading();
+        toggleLoading();
         buscarDadosServidor();
     } else {
         transacoes = buscarDadosLocalStorage();
@@ -77,7 +76,7 @@ function mostrarMsgSalvarServidor() {
 function esconderMsgSalvarServidor() {
     caixaMsg.classList.add('esconder');
 }
-function toogleMsgSalvarServidor() {
+function toggleMsgSalvarServidor() {
     const contemClassEsconder = caixaMsg.classList.contains('esconder');
     if (contemClassEsconder) {
         mostrarMsgSalvarServidor();
@@ -85,7 +84,7 @@ function toogleMsgSalvarServidor() {
         esconderMsgSalvarServidor();
     }
 }
-function toogleLoading() {
+function toggleLoading() {
     const indiceClassEsconder = imgLoading.classList.toString().indexOf('esconder');
     if (indiceClassEsconder === -1) {
         imgLoading.classList.add('esconder');
@@ -342,10 +341,10 @@ function salvarDadosServidor() {
         },
         body: corpoRequisicao
     }).then(() => {
-        dadosServidor = JSON.stringify(buscarDadosLocalStorage());
+        sessionStorage.setItem('dadosServidor', JSON.stringify(buscarDadosLocalStorage()));
         compararDadosServidor()
 
-    }).catch(e => alert('ERRO!\nSeus dados não foram salvos. Verifique sua rede e tente novamente.'));
+    }).catch(() => alert('ERRO!\nSeus dados não foram salvos. Verifique sua rede e tente novamente.'));
 }
 function buscarDadosServidor() {
     fetch('https://api.airtable.com/v0/appRNtYLglpPhv2QD/Historico/reckDQ6hmpeCC9Squ', {
@@ -359,18 +358,21 @@ function buscarDadosServidor() {
         transacoes = JSON.parse(dados);
         salvarDadosLocalStorage();
         atualizarExtrato();
-        dadosServidor = JSON.stringify(buscarDadosLocalStorage());
+        sessionStorage.setItem('dadosServidor', JSON.stringify(buscarDadosLocalStorage()));
         sessionStorage.setItem('sessionActive', 'true');
-        toogleLoading();
+        toggleLoading();
     }).catch(() => {
         alert('ERRO!\nNão conseguimos buscar seus dados do servidor. Os dados mostrados são os salvos no cache local.\nPara buscar novamente, verifique sua rede e atualize a página.');
         transacoes = buscarDadosLocalStorage();
         atualizarExtrato();
-        toogleLoading();
+        toggleLoading();
     });
 }
 function compararDadosServidor() {
     const dadosLocalStorage = JSON.stringify(buscarDadosLocalStorage());
+    const dadosServidor = sessionStorage.getItem('dadosServidor') !== null
+        ? sessionStorage.getItem('dadosServidor')
+        : '';
     if (dadosServidor === dadosLocalStorage) {
         imgExclamacao.classList.add('esconder');
         document.title = 'Controle Financeiro';
